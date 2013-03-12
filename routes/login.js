@@ -4,4 +4,6 @@ exports.get = function(req, res){
 
 exports.post = function(req, res){
   console.log('user login');
+  req.session.username = 'tomo';
+  res.redirect('/');
 };

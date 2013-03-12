@@ -4,6 +4,8 @@
  */
 
 var express = require('express')
+  , MongoStore = require('connect-mongo')(express)
+  , settings = require('./utils/settings')
   , routes = require('./routes')
   , login = require('./routes/login')
   , users = require('./routes/users')
@@ -26,7 +28,13 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('tomo'));
-  app.use(express.session());
+  app.use(express.session({
+    secret: settings.cookie_secret,
+    store: new MongoStore({
+      db: 'session',
+      uri: settings.mongo_uri_session
+    })
+  }));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -59,6 +67,9 @@ app.map({
   '/login': {
     get: login.get,   // login page
     post: login.post  // do authentication
+  },
+  '/logoff': {
+    get: require('./routes/logoff').get
   },
   '/users': {
     post: users.add   // add user
