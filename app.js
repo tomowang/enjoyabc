@@ -32,7 +32,7 @@ app.configure(function(){
     secret: settings.cookie_secret,
     store: new MongoStore({
       db: 'session',
-      uri: settings.mongo_uri_session
+      uri: settings.mongo_uri
     })
   }));
   app.use(app.router);
