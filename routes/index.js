@@ -4,9 +4,5 @@
  */
 
 exports.index = function(req, res){
-  if(req.session.username){
-    res.render('index', { title: 'Express' });
-  }else{
-    res.redirect('/login');
-  }
+  res.render('index', { title: 'Express' });
 };

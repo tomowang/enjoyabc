@@ -31,7 +31,7 @@ app.configure(function(){
   app.use(express.session({
     secret: settings.cookie_secret,
     store: new MongoStore({
-      db: 'session',
+      db: settings.db,
       uri: settings.mongo_uri
     })
   }));
@@ -46,15 +46,25 @@ app.configure('development', function(){
 app.map = function(a, route){
   route = route || '';
   for (var key in a) {
-    switch (typeof a[key]) {
-      // { '/path': { ... }}
-      case 'object':
-        app.map(a[key], route + key);
-        break;
-      // get: function(){ ... }
-      case 'function':
-        app[key](route, a[key]);
-        break;
+    // get: function(){ ... }   single function
+    // get: [function(){ ... }, function(){...}, ...]   function list
+    if(Array.isArray(a[key]) || typeof a[key] === 'function'){
+      app[key](route, a[key]);
+    }
+    // { '/path': { ... }}
+    else if(typeof a[key] === 'object'){
+      app.map(a[key], route + key);
+    }
+  }
+};
+
+var auth = function(){
+  return function(req, res, next){
+    if('username' in req.session){
+      next();
+    }
+    else{
+      res.redirect('/login');
     }
   }
 };
@@ -62,35 +72,35 @@ app.map = function(a, route){
 // DEAL - delete, edit, add, list
 app.map({
   '/': {
-    get: routes.index
+    get: [auth(), routes.index]
   },
   '/login': {
     get: login.get,   // login page
-    post: login.post  // do authentication
+    post: login.post  // do authentication, user login
   },
   '/logoff': {
     get: require('./routes/logoff').get
   },
   '/users': {
-    post: users.add   // add user
+    post: users.add   // add user, register
   },
   '/articles': {
-    get: articles.list,   // list all articles
+    get: [auth(), articles.list],   // list all articles
     '/:tid': {
-      get: articles.get  // get certain topic
+      get: [auth(), articles.get]  // get certain topic
     }
   },
   '/lectures': {
-    get: lectures.list
+    get: [auth(), lectures.list]
   },
   '/presentations': {
-    get: presentations.list
+    get: [auth(), presentations.list]
   },
   '/videos': {
-    get: videos.list
+    get: [auth(), videos.list]
   },
   '/contact': {
-    get: require('./routes/contact').get  // contact us page
+    get: [auth(), require('./routes/contact').get]  // contact us page
   }
 });
 
