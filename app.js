@@ -95,10 +95,16 @@ app.map({
     get: [auth(), lectures.list]
   },
   '/presentations': {
-    get: [auth(), presentations.list]
+    get: [auth(), presentations.list],
+    '/:uuid': {
+      get: auth()
+    }
   },
   '/videos': {
-    get: [auth(), videos.list]
+    get: [auth(), videos.list],
+    '/:uuid': {
+      get: auth()
+    }
   },
   '/contact': {
     get: [auth(), require('./routes/contact').get]  // contact us page

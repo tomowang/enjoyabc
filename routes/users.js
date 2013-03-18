@@ -24,5 +24,6 @@ exports.add = function(req, res){
 };
 
 exports.get = function(req, res){
-  res.render('users');
+  //res.render('users');
+  res.send('users');
 }

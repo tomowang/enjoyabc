@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  .page.thirdary
+    include includes/header
+    .page-region
+      .page-region-content
+        each p in presentations
+          .image-container.bg-color-blue51.place-left
+            img(src="/presentations/#{p.uuid}-0.png")
+            .overlay #{p.title}
+              | <br>
+              | #{p.date}
+            a.icon-download-2.bottom-right(href="/presentations/#{p.uuid}.pdf", target="_blank")
+    //-include includes/footer

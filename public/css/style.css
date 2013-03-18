@@ -1,4 +1,4 @@
-.metrouicss .page.header {
+.metrouicss .page.thirdary {
   width: 962px;
   margin: auto;
   background-color: white;
@@ -6,6 +6,13 @@
 
 .metrouicss .page .tile-group {
   margin-right: 0;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  padding: 5px;
+  width: 962px;
 }
 
 #login-page {

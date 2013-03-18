@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  .page.thirdary
+    include includes/header
+    .page-region
+      .page-region-content
+        each v in videos
+          .image-container.bg-color-blue51.place-left
+            img(src="/videos/#{v.uuid}.jpg")
+            .overlay #{v.title}
+              | <br>
+              | #{v.date}
+            a.icon-download-2.bottom-right(href="/videos/#{v.uuid}.#{v.format}", target="_blank")
+    //-include includes/footer

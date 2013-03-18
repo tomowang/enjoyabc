@@ -1,13 +1,13 @@
 extends layout
 
 block content
-  .page.header
+  .page.thirdary
     include includes/header
     .page-region
       .page-region-content.tiles
         .tile-group.tile-drag
           each article in articles
-            a.tile
+            a.tile.double.bg-color-blueDark(href="#")
               .tile-content
-                .menu #{article}
-    include includes/footer
+                h2 #{article}
+    //-include includes/footer
