@@ -1,6 +1,57 @@
-form#login(action='/login', method='POST')
-  label(for="username") Username
-    input#username(type='text')
-  label(for="password") Password
-    input#password(type='password')
-  button#login(type='submit') Login
+extends layout
+
+block content
+  .page#login-page
+    .page-header
+      .page-header-content
+        a(href='/')
+          h1.fg-color-blue51
+            span.logo(style="padding-left: 20px;") Enj
+              i.icon-earth(style="font-size: 32px;")
+              | yABC
+    .page-region
+      .page-region-content
+        .grid
+          .row
+            .span5.padding40
+              form#login(action='/login', method='POST')
+                .input-control.text
+                  input#username(type='text', tabindex="1", required="required", placeholder="Username")
+                  button.helper(type="button", tabindex="-1")
+                .input-control.password
+                  input#password(type='password', tabindex="2", required="required", placeholder="Password")
+                  button.helper(type="button", tabindex="-1")
+                button.bg-color-blue51.fg-color-white#login(type='submit') Sign In
+                  i.icon-enter.right
+                a.button.bg-color-blue.fg-color-white#register Register
+  .dialog.modal#register_box
+    .modal-header New Account
+      i.icon-cancel.close
+    .modal-content
+      form(action='/users', method='POST')
+        .input-control.text
+          input#username(type='text', tabindex="1", required="required", placeholder="Username")
+          button.helper(type="button", tabindex="-1")
+        .input-control.password
+          input#password(type='password', tabindex="2", required="required", placeholder="Password")
+          button.helper(type="button", tabindex="-1")
+        .input-control.password
+          input#password2(type='password', tabindex="3", required="required", placeholder="Comfirm password")
+          button.helper(type="button", tabindex="-1")
+        button.bg-color-blue.fg-color-white#register(type='submit') Create Account
+        a.close.button.bg-color-red.fg-color-white#cancel Cancel
+
+
+block js
+  script(type='text/javascript')
+    ;(function($){
+      $(document).ready(function(e){
+        $('#register').click(function(e){
+          $('#register_box').lightbox_me();
+          e.preventDefault();
+        });
+      });
+    })(jQuery);
+
+append scripts
+  script(src='/javascript/jquery.lightbox_me.js', text='text/javascript')

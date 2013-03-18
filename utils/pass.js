@@ -39,7 +39,7 @@ exports.hash = function (pwd, salt, fn) {
       salt = salt.toString('base64');
       crypto.pbkdf2(pwd, salt, iterations, len, function(err, hash){
         if (err) return fn(err);
-        fn(null, salt, hash);
+        fn(null, salt, Buffer(hash, 'binary').toString('base64'));
       });
     });
   }

@@ -1,6 +1,11 @@
 exports.list = function(req, res){
   console.log('list articles');
-  res.send('articles');
+  var articles = []
+    , i;
+  for(i = 1; i <= 12; i++){
+    articles.push('Topic ' + i);
+  }
+  res.render('articles', {articles: articles});
 };
 
 exports.get = function(req, res){

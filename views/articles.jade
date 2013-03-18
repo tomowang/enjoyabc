@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .page.secondary
+    include includes/header
+    .page-region
+      .page-region-content.tiles
+        .tile-group.tile-drag
+          each article in articles
+            a.tile
+              .tile-content
+                .menu #{article}
+    include includes/footer

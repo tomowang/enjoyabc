@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  .page.secondary
+    include includes/header
+    .page-region
+      .page-region-content
+        table.bordered.hovered
+          thead
+            tr
+              th Date
+              th Topic
+              th Lecture
+              th Location
+          tbody
+            each l in lectures
+              tr
+                td #{l.date}
+                td #{l.topic}
+                td #{l.lecture}
+                td #{l.location}
+    include includes/footer

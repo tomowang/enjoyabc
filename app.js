@@ -82,6 +82,7 @@ app.map({
     get: require('./routes/logoff').get
   },
   '/users': {
+    get: users.get,
     post: users.add   // add user, register
   },
   '/articles': {

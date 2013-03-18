@@ -1,5 +1,36 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .page.secondary
+    include includes/header
+    .page-region
+      .page-region-content.tiles
+        .tile-group.tile-drag
+          a.tile.double.bg-color-white
+            .tile-content
+              .logo
+                span.enjoy Enjoy
+                span.abc ABC
+          a.tile.double.bg-color-blue51(href="/articles")
+            .tile-content
+              .menu Articles
+          a.tile.double.bg-color-blue51(href="/lectures")
+            .tile-content
+              .menu Lecture<br>Calendar
+          a.tile.double.bg-color-blue51(href="/presentations")
+            .tile-content
+              .menu Presentations
+          a.tile.double.bg-color-blue51(href="/videos")
+            .tile-content
+              .menu Video
+          a.tile.double.bg-color-blue51(href="/content")
+            .tile-content
+              .menu Contact Us
+    include includes/footer
+
+block js
+  script(type='text/javascript')
+    ;(function($){
+      $(document).ready(function(e){
+      });
+    })(jQuery);
