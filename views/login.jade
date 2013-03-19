@@ -14,12 +14,17 @@ block content
         .grid
           .row
             .span5.padding40
+              - if (typeof error !== 'undefined'){
+                .alert.bg-color-red
+                  span= error
+                  i.icon-cancel
+              - }
               form#login(action='/login', method='POST')
                 .input-control.text
-                  input#username(type='text', tabindex="1", required="required", placeholder="Username")
+                  input#username(name="username", type='text', tabindex="1", required="required", placeholder="Username")
                   button.helper(type="button", tabindex="-1")
                 .input-control.password
-                  input#password(type='password', tabindex="2", required="required", placeholder="Password")
+                  input#password(name="password", type='password', tabindex="2", required="required", placeholder="Password")
                   button.helper(type="button", tabindex="-1")
                 button.bg-color-blue51.fg-color-white#login(type='submit') Sign In
                   i.icon-enter.right
