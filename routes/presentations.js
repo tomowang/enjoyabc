@@ -1,5 +1,17 @@
+var Presentation = require('../model').Presentation;
+
 exports.list = function(req, res){
   console.log('list presentations');
+  Presentation.find({}, function(err, docs){
+    if(err){
+      res.send(500);
+      return;
+    }
+    res.render('presentations', {
+      presentations: docs
+    });
+  });
+  /*
   res.render('presentations', {
     presentations: [
       {
@@ -14,4 +26,5 @@ exports.list = function(req, res){
       }
     ]
   });
+  */
 };

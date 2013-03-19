@@ -1,5 +1,17 @@
+var Video = require('../model').Video;
+
 exports.list = function(req, res){
   console.log('list videos');
+  Video.find({}, function(err, docs){
+    if(err){
+      res.send(500);
+      return;
+    }
+    res.render('videos', {
+      videos: docs
+    });
+  });
+  /*
   res.render('videos', {
     videos: [
       {
@@ -16,4 +28,5 @@ exports.list = function(req, res){
       }
     ]
   });
+  */
 };

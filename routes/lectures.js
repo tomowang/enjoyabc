@@ -1,5 +1,4 @@
-var Lecture = require('../model').Lecture
-  , moment = require('moment');
+var Lecture = require('../model').Lecture;
 
 exports.list = function(req, res){
   console.log('list lectures');

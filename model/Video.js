@@ -8,4 +8,6 @@ var mongoose = require('mongoose')
       title: String
     });
 
+schema.methods.get_date = require('../utils/common').get_date;
+
 module.exports = mongoose.model('Video', schema);
