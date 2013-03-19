@@ -1,16 +1,15 @@
+var Lecture = require('../model').Lecture
+  , moment = require('moment');
+
 exports.list = function(req, res){
   console.log('list lectures');
-  var lectures = []
-    , i;
-  for(i = 1; i <= 10; i++){
-    lectures.push({
-      date: i,
-      topic: 'Topic ' + i,
-      lecture: 'Lecture ' + i,
-      location: 'Location ' + i
+  Lecture.find({}, function(err, docs){
+    if(err){
+      res.send(500);
+      return;
+    }
+    res.render('lectures', {
+      lectures: docs
     });
-  }
-  res.render('lectures', {
-    lectures: lectures
   });
 };

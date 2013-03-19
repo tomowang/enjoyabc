@@ -15,8 +15,8 @@ block content
           tbody
             each l in lectures
               tr
-                td #{l.date}
+                td #{l.get_date()}
                 td #{l.topic}
-                td #{l.lecture}
+                td #{l.lecturer}
                 td #{l.location}
     //-include includes/footer
