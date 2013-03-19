@@ -28,17 +28,20 @@ block content
     .modal-header New Account
       i.icon-cancel.close
     .modal-content
-      form(action='/users', method='POST')
+      .alert.bg-color-red
+        span
+        i.icon-cancel
+      .box 
         .input-control.text
-          input#username(type='text', tabindex="1", required="required", placeholder="Username")
+          input#username(name="username", type='text', required="required", placeholder="Username")
           button.helper(type="button", tabindex="-1")
         .input-control.password
-          input#password(type='password', tabindex="2", required="required", placeholder="Password")
+          input#password(name="password", type='password', required="required", placeholder="Password")
           button.helper(type="button", tabindex="-1")
         .input-control.password
-          input#password2(type='password', tabindex="3", required="required", placeholder="Comfirm password")
+          input#password2(name="password2", type='password', required="required", placeholder="Comfirm password")
           button.helper(type="button", tabindex="-1")
-        button.bg-color-blue.fg-color-white#register(type='submit') Create Account
+        button.bg-color-blue.fg-color-white#create Create Account
         a.close.button.bg-color-red.fg-color-white#cancel Cancel
 
 
@@ -47,8 +50,58 @@ block js
     ;(function($){
       $(document).ready(function(e){
         $('#register').click(function(e){
+          $('.alert', $('#register_box')).hide();
           $('#register_box').lightbox_me();
-          e.preventDefault();
+        });
+        $('#create').click(function(e){
+          var modal = $('#register_box')
+            , user = {
+            username: $.trim($('#username', modal).val()),
+            password: $('#password', modal).val(),
+            password2: $('#password2', modal).val()
+          }
+            , msg;
+          if(!user.username){
+            $('#username', modal).focus();
+            msg = 'Please enter username';
+          }else if(!user.password){
+            $('#password', modal).focus();
+            msg = 'Please enter password';
+          }else if(!user.password2){
+            $('#password2', modal).focus()
+            msg = 'Please confirm password';
+          }else if(user.password !== user.password2){
+            $('#password2', modal).focus()
+            msg = 'Password did not match';
+          }
+          if(msg){
+            $('.alert span', $('#register_box')).html(msg);
+            $('.alert', $('#register_box')).show();
+            return false;
+          }
+          delete user.password2;
+          $.ajax({
+            url: '/users',
+            dataType: 'json',
+            type: 'post',
+            data: user,
+            success: function(data){
+              window.location.href = '/';
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              var rt = jqXHR.responseText
+                , jsrt = {error: 'Register failed'};
+              try {
+                jsrt = $.parseJSON(rt);
+              }
+              catch(e) {
+              }
+              $('.alert span', $('#register_box')).html(jsrt.error);
+            }
+          });
+        });
+        $('.alert .icon-cancel').click(function(e){
+          $(this).parent('.alert').hide();
         });
       });
     })(jQuery);

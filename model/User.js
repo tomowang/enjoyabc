@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
       username: String,
       salt: String,
       password: String,
+      last_login: Date,
       role: String  // admin or user
     });
 

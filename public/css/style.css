@@ -21,6 +21,16 @@
   width: 480px;
 }
 
+div.alert {
+  display: none;
+  margin-bottom: 5px;
+  padding: 0 5px;
+}
+
+.modal .icon-cancel:hover {
+  cursor: pointer;
+}
+
 div.modal {
   background: white;
   border: 1px solid black;

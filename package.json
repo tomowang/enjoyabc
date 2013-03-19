@@ -7,9 +7,11 @@
   },
   "dependencies": {
     "express": "3.1.0",
-    "jade": "*",
-    "node-uuid": "*",
-    "mongoose": "*",
-    "connect-mongo": "*"
+    "jade": ">=0.28.2",
+    "node-uuid": "1.4.0",
+    "formidable": "1.0.13",
+    "moment": "2.0.0",
+    "mongoose": "3.5.8",
+    "connect-mongo": "0.3.2"
   }
 }
