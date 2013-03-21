@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
       uuid: String,
       date: Date,
       filename: String,
+      size: Number,
       title: String
     });
 

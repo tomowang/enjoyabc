@@ -41,7 +41,8 @@ exports.post = function(req, res){
         });
         return;
       }
-      req.session.username = 'tomo';
+      req.session.username = user.username;
+      req.session.role = user.role;
       res.redirect('/');
     });
   });

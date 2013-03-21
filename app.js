@@ -1,4 +1,19 @@
+var cluster = require('cluster')
+  , numCPUs = require('os').cpus().length;
 
+if (cluster.isMaster) {
+  // Fork workers.
+  for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', function(worker, code, signal) {
+    console.log('worker ' + worker.process.pid + ' died');
+    console.log('fork a new one...');
+    cluster.fork();
+  });
+}
+else {
 /**
  * Module dependencies.
  */
@@ -25,7 +40,10 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({
+    //keepExtensions: true,
+    uploadDir: __dirname + "/public/downloads"
+  }));
   app.use(express.methodOverride());
   app.use(express.cookieParser('tomo'));
   app.use(express.session({
@@ -68,6 +86,20 @@ var auth = function(){
     }
   }
 };
+var role_map = {
+  'admin': 0, // most 
+  'user': 1
+};
+var access_ctrl = function(role){
+  return function(req, res, next){
+    if('role' in req.session && role_map[role] >= role_map[req.session.role]){
+      next();
+    }
+    else{
+      res.send(403);
+    }
+  }
+}
 
 // DEAL - delete, edit, add, list
 app.map({
@@ -92,19 +124,19 @@ app.map({
     }
   },
   '/lectures': {
-    get: [auth(), lectures.list]
+    get: [auth(), lectures.list],
+    post: [auth(), access_ctrl('admin'), lectures.post]
   },
   '/presentations': {
     get: [auth(), presentations.list],
-    '/:uuid': {
-      get: auth()
-    }
+    post: [auth(), access_ctrl('admin'), presentations.post]
   },
   '/videos': {
     get: [auth(), videos.list],
-    '/:uuid': {
-      get: auth()
-    }
+    post: [auth(), access_ctrl('admin'), videos.post]
+  },
+  '/downloads': {
+    get: auth()
   },
   '/contact': {
     get: [auth(), require('./routes/contact').get]  // contact us page
@@ -114,3 +146,5 @@ app.map({
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+}

@@ -7,10 +7,10 @@ block content
       .page-region-content
         each v in videos
           .image-container.bg-color-blue51.place-left
-            img(src="/videos/#{v.uuid}.jpg")
+            img(src="/downloads/#{v.uuid}.jpg")
             .overlay #{v.title}
               | <br>
               | #{v.date}
-            a.icon-download-2.bottom-right(href="/videos/#{v.uuid}.#{v.ext}", target="_blank")
+            a.icon-download-2.bottom-right(href="/downloads/#{v.uuid}.#{v.ext}", target="_blank")
         //-a#upload.place-left.bg-color-blue51.icon-upload-3(href="#")
     //-include includes/footer
