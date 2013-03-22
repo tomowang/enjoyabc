@@ -10,7 +10,71 @@ block content
             img(src="/downloads/#{v.uuid}.jpg")
             .overlay #{v.title}
               | <br>
-              | #{v.date}
-            a.icon-download-2.bottom-right(href="/downloads/#{v.uuid}.#{v.ext}", target="_blank")
-        //-a#upload.place-left.bg-color-blue51.icon-upload-3(href="#")
+              | #{v.get_date()}
+            a.icon-download-2.bottom-right(href="/downloads/#{v.filename}", target="_blank")
+        - if (role === 'admin') {
+          a#upload.place-left.bg-color-blue51.icon-upload-3(href="#")
+        - }
     //-include includes/footer
+
+  - if (role === 'admin') {
+    .dialog.modal#upload_popup
+      .modal-header New Account
+        i.icon-cancel.close
+      .modal-content
+        .alert.bg-color-red
+          span
+          i.icon-cancel
+        form.box#fileupload(action="/videos", method="POST", enctype="multipart/form-data")
+          .progress-bar
+            .bar.bg-color-red
+          .input-control.text
+            input#title(name="title", type='text', required="required", placeholder="Title")
+            button.helper(type="button", tabindex="-1")
+          .input-control
+            input#video(name="video", required="required", type='file')
+          button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Upload
+          a.button.close.bg-color-red.fg-color-white#cancel Cancel
+  - }
+
+block js
+  - if (role === 'admin') {
+    script(type='text/javascript')
+      ;(function($){
+        $(document).ready(function(e){
+          var popup = $('#upload_popup');
+          $('#upload').click(function(e){
+            $('.alert', popup).hide();
+            popup.lightbox_me();
+          });
+          $('form').ajaxForm({
+            dataType: 'json',
+            beforeSerialize: function($form, options){
+              $('#title', $form).val($.trim($('#title', $form).val()));
+              if(!$('#title', $form).val() || !$('#video', $form).val()){
+                return false;
+              }
+            },
+            beforeSubmit: function(formData, jqForm, options){
+              var $form = jqForm[0];
+              $('.close', $form).addClass('disabled').attr('disabled', 'disabled');
+              $('.bar', $form).css('width', '0%');
+            },
+            uploadProgress: function(e, position, total, done){
+              $('.bar', popup).css('width', done + '%');
+            },
+            success: function(data){
+              console.log(data);
+              window.location.href = '/videos';
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              $('.close', popup).removeAttr('disabled').removeClass('disabled');
+            }
+          });
+        });
+      })(jQuery);
+  - }
+
+append scripts
+  script(src='/javascript/jquery.lightbox_me.js', text='text/javascript')
+  script(src='/javascript/jquery.form.js', text='text/javascript')

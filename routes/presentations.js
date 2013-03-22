@@ -25,7 +25,6 @@ exports.post = function(req, res){
     , newPath = path.join(path.dirname(oldPath), req.files.presentation.name)
     , uuid = path.basename(oldPath)
     , thumbnail = path.join(path.dirname(oldPath), util.format('%s.%s', uuid, fmt));
-  console.log(oldPath, newPath, uuid, thumbnail);
   fs.rename(oldPath, newPath, function(err){
     exec(util.format('convert %s $s', newPath, thumbnail), function(error, stdout, stderr){
       if(error){
