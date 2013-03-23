@@ -12,6 +12,10 @@ block content
               th Topic
               th Lecturer
               th Location
+              - if (role === 'admin'){
+                th &nbsp;
+                  a.icon-plus(title="Add a new Lecture", href="#")
+              - }
           tbody
             each l in lectures
               tr
@@ -19,4 +23,84 @@ block content
                 td #{l.topic}
                 td #{l.lecturer}
                 td #{l.location}
+                - if (role === 'admin'){
+                  td
+                    a.icon-minus(title="Delete this", href="#", data-id="#{l.id}")
+                - }
     //-include includes/footer
+  - if (role === 'admin') {
+    .dialog.modal#add_popup
+      .modal-header New Lecture
+        i.icon-cancel.close
+      .modal-content
+        .alert.bg-color-red
+          span
+          i.icon-cancel
+        form.box#fileupload(action="/lectures", method="POST")
+          .input-control.text.datepicker(data-role="datepicker")
+            input#date(name="date", type="text", required="required")
+            button.btn-date
+          .input-control.text
+            input#topic(name="topic", type='text', required="required", placeholder="Topic")
+            button.helper(type="button", tabindex="-1")
+          .input-control.text
+            input#lecturer(name="lecturer", type='text', required="required", placeholder="Lecturer")
+            button.helper(type="button", tabindex="-1")
+          .input-control.text
+            input#location(name="location", type='text', required="required", placeholder="Location")
+            button.helper(type="button", tabindex="-1")
+          button.bg-color-blue.fg-color-white#submit(type="submit") Submit
+          a.button.close.bg-color-red.fg-color-white#cancel Cancel
+  - }
+
+block js
+  - if (role === 'admin') {
+    script(type='text/javascript')
+      ;(function($){
+        $(document).ready(function(e){
+          var popup = $('#add_popup');
+          $('a.icon-plus').click(function(e){
+            e.preventDefault();
+            $('.alert', popup).hide();
+            popup.lightbox_me();
+          });
+          $('a.icon-minus').click(function(e){
+            e.preventDefault();
+            var _this = $(this);
+            $.ajax({
+              url: '/lectures/' + _this.data('id'),
+              type: 'DELETE',
+              success: function(data){
+                _this.parent('tr').remove();
+              }
+            });
+          });
+          $('form').ajaxForm({
+            dataType: 'json',
+            beforeSerialize: function($form, option){
+              var valid = true;
+              $('input', $form).each(function(){
+                $(this).val($.trim($(this).val()));
+                if(!$(this).val()){
+                  valid = false;
+                  return false;
+                }
+              });
+              return valid;
+            },
+            success: function(data){
+              console.log(data);
+              window.location.href = '/lectures';
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              console.log(jqXHR);
+            }
+          });
+        });
+      })(jQuery);
+  - }
+
+append scripts
+  script(src='/javascript/jquery.lightbox_me.js', text='text/javascript')
+  script(src='/javascript/jquery.form.js', text='text/javascript')
+  script(src='/javascript/moment.min.js', text='text/javascript')

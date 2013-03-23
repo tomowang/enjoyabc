@@ -125,7 +125,10 @@ app.map({
   },
   '/lectures': {
     get: [auth(), lectures.list],
-    post: [auth(), access_ctrl('admin'), lectures.post]
+    post: [auth(), access_ctrl('admin'), lectures.post],
+    '/:id': {
+      delete: [auth(), access_ctrl('admin'), lectures.del]
+    }
   },
   '/presentations': {
     get: [auth(), presentations.list],
