@@ -129,7 +129,10 @@ app.map({
   },
   '/presentations': {
     get: [auth(), presentations.list],
-    post: [auth(), access_ctrl('admin'), presentations.post]
+    post: [auth(), access_ctrl('admin'), presentations.post],
+    '/:uuid': {
+      delete: [auth(), access_ctrl('admin'), presentations.del]
+    }
   },
   '/videos': {
     get: [auth(), videos.list],

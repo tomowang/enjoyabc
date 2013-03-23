@@ -45,3 +45,30 @@ exports.post = function(req, res){
     });
   });
 };
+
+exports.del = function(req, res){
+  console.log('delete one presentation');
+  var uuid = req.params.uuid;
+  Presentation.findOne({uuid: uuid}, function(err, p){
+    if(err){
+      res.send(500);
+      return;
+    }
+    p.remove(function(err){
+      if(err){
+        res.send(500);
+        return;
+      }
+      var dirname = path.join(__dirname, '..', 'public', 'downloads')
+        , filename = path.join(dirname, p.filename)
+        , thumbnail = path.join(dirname, util.format('%s-0.%s', uuid, fmt));
+      fs.unlink(filename, function(e){
+        if(e) console.log(e);
+        fs.unlink(thumbnail, function(e){
+          if(e) console.log(e);
+          res.send(200);
+        });
+      });
+    });
+  });
+}

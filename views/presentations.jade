@@ -12,6 +12,9 @@ block content
               | <br>
               | #{p.get_date()}
             a.icon-download-2.bottom-right(href="/downloads/#{p.filename}", target="_blank")
+            - if (role === 'admin') {
+              a.icon-cancel.top-right(href="#", data-uuid="#{p.uuid}")
+            - }
         - if (role === 'admin') {
           a#upload.place-left.bg-color-blue51.icon-upload-3(href="#")
         - }
@@ -70,6 +73,16 @@ block js
             error: function(jqXHR, textStatus, errorThrown){
               $('.close', popup).removeAttr('disabled').removeClass('disabled');
             }
+          });
+          $('a.icon-cancel').click(function(e){
+            var _this = $(this);
+            $.ajax({
+              url: '/presentations/' + _this.data('uuid'),
+              type: 'DELETE',
+              success: function(data){
+                _this.parent('.image-container').remove();
+              }
+            });
           });
         });
       })(jQuery);
