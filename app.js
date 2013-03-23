@@ -42,7 +42,7 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser({
     //keepExtensions: true,
-    uploadDir: __dirname + "/public/downloads"
+    uploadDir: path.join(__dirname, 'public', 'downloads')
   }));
   app.use(express.methodOverride());
   app.use(express.cookieParser('tomo'));
@@ -131,6 +131,7 @@ app.map({
     get: [auth(), presentations.list],
     post: [auth(), access_ctrl('admin'), presentations.post],
     '/:uuid': {
+      get: [auth(), presentations.get],
       delete: [auth(), access_ctrl('admin'), presentations.del]
     }
   },

@@ -11,7 +11,7 @@ block content
             .overlay #{p.title}
               | <br>
               | #{p.get_date()}
-            a.icon-download-2.bottom-right(href="/downloads/#{p.filename}", target="_blank")
+            a.icon-download-2.bottom-right(href="/presentations/#{p.uuid}", target="_blank")
             - if (role === 'admin') {
               a.icon-cancel.top-right(href="#", data-uuid="#{p.uuid}")
             - }
