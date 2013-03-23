@@ -137,7 +137,11 @@ app.map({
   },
   '/videos': {
     get: [auth(), videos.list],
-    post: [auth(), access_ctrl('admin'), videos.post]
+    post: [auth(), access_ctrl('admin'), videos.post],
+    '/:uuid': {
+      get: [auth(), videos.get],
+      delete: [auth(), access_ctrl('admin'), videos.del]
+    }
   },
   '/downloads': {
     get: auth()

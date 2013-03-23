@@ -4,7 +4,7 @@ var Presentation = require('../model').Presentation
   , fs = require('fs')
   , util = require('util')
   , fmt = 'jpg'
-  , uploadDir = path.join(__dirname, '..', 'public', 'downloads')
+  , uploadDir = path.join(__dirname, '..', 'public', 'downloads');
 
 exports.list = function(req, res){
   console.log('list presentations');
