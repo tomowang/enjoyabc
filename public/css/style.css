@@ -34,7 +34,7 @@ div.modal {
   background: white;
   border: 1px solid black;
   display: none;
-  width: 400px;
+  /*width: 400px;*/
   -webkit-box-shadow: rgba(0,0,0,.6) 0px 2px 12px;
   -moz-box-shadow:  rgba(0,0,0,.6) 0px 2px 12px;
 }

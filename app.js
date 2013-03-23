@@ -118,9 +118,10 @@ app.map({
     post: users.add   // add user, register
   },
   '/articles': {
-    get: [auth(), articles.list],   // list all articles
+    get: [auth(), articles.list],
+    post: [auth(), access_ctrl('admin'), articles.post],
     '/:tid': {
-      get: [auth(), articles.get]  // get certain topic
+      delete: [auth(), access_ctrl('admin'), articles.del]
     }
   },
   '/lectures': {

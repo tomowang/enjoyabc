@@ -13,7 +13,7 @@ block content
               th Lecturer
               th Location
               - if (role === 'admin'){
-                th &nbsp;
+                th
                   a.icon-plus(title="Add a new Lecture", href="#")
               - }
           tbody
@@ -36,7 +36,7 @@ block content
         .alert.bg-color-red
           span
           i.icon-cancel
-        form.box#fileupload(action="/lectures", method="POST")
+        form.box(action="/lectures", method="POST")
           .input-control.text.datepicker(data-role="datepicker")
             input#date(name="date", type="text", required="required")
             button.btn-date
@@ -71,7 +71,8 @@ block js
               url: '/lectures/' + _this.data('id'),
               type: 'DELETE',
               success: function(data){
-                _this.parent('tr').remove();
+                console.log(data);
+                _this.parents('tr').remove();
               }
             });
           });

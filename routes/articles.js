@@ -14,7 +14,47 @@ exports.list = function(req, res){
   });
 };
 
-exports.get = function(req, res){
-  console.log('get ' +  req.params.tid);
-  res.send('article ' + req.params.tid);
+exports.post = function(req, res){
+  console.log('add a new topic');
+  var articles = []
+    , i;
+  for(i = 0; i < req.body.title.length; i++){
+    articles.push({
+      title: req.body.title[i],
+      link: req.body.link[i]
+    });
+  }
+  var topic = Topic({
+    name: req.body.topic,
+    articles: articles
+  });
+  topic.save(function(e, p){
+    if(e){
+      res.send(500);
+      return
+    }
+    res.send(201, {id: topic._id});
+  });
+}
+
+exports.del = function(req, res){
+  console.log('delete topic: ' + req.params.tid);
+  var id = req.params.tid;
+  Topic.findById(id, function(e, t){
+    if(e){
+      res.send(500);
+      return;
+    }
+    if(!t){
+      res.send(404);
+      return;
+    }
+    t.remove(function(err){
+      if(e){
+        res.send(500);
+        return;
+      }
+      res.send(200);
+    });
+  });
 };
