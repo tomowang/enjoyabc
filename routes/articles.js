@@ -1,11 +1,17 @@
+var Topic = require('../model').Topic;
+
 exports.list = function(req, res){
   console.log('list articles');
-  var articles = []
-    , i;
-  for(i = 1; i <= 12; i++){
-    articles.push('Topic ' + i);
-  }
-  res.render('articles', {articles: articles});
+  Topic.find({}, function(err, docs){
+    if(err){
+      res.send(500);
+      return;
+    }
+    res.render('articles', {
+      role: req.session.role,
+      topics: docs
+    });
+  });
 };
 
 exports.get = function(req, res){

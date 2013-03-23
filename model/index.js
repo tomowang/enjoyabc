@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
 mongoose.connect(settings.mongo_uri + settings.db);
 
 exports.User = require('./User');
+exports.Topic = require('./Topic');
 exports.Lecture = require('./Lecture');
 exports.Video = require('./Video');
 exports.Presentation = require('./Presentation');

@@ -4,10 +4,15 @@ block content
   .page.thirdary
     include includes/header
     .page-region
-      .page-region-content.tiles
-        .tile-group.tile-drag
-          each article in articles
-            a.tile.double.bg-color-blueDark(href="#")
-              .tile-content
-                h2 #{article}
+      .page-region-content
+        ul.listview.fluid
+          each topic in topics
+            li.bg-color-blueDark.fg-color-white
+              .icon
+                img(src="/images/article_32.png")
+              .data
+                h4.fg-color-white #{topic.name}
+                each a in topic.articles
+                  a(href="#{a.link}") #{a.title}
+                  br
     //-include includes/footer
