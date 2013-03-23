@@ -40,7 +40,7 @@ exports.post = function(req, res){
   var oldPath = req.files.video.path
     , uuid = path.basename(oldPath)
     , thumbnail = path.join(path.dirname(oldPath), util.format('%s.%s', uuid, fmt));
-  exec(util.format('avconv -i %s -ss 5 -r 1 -an -vframes 1 -f mjpeg %s', newPath, thumbnail), function(error, stdout, stderr){
+  exec(util.format('avconv -i %s -ss 5 -r 1 -an -vframes 1 -f mjpeg %s', oldPath, thumbnail), function(error, stdout, stderr){
     if(error){
       res.send(500);
     }
