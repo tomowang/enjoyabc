@@ -1,17 +1,30 @@
 {
   "name": "enjoyabc",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "author": "Tomo Wang <tomo_wang@163.com>",
   "private": true,
+  "description": "private site for enjoyabc, articles, lecturesa, presentations, videos",
   "scripts": {
     "start": "node app"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomowang/enjoyabc"
+  },
+  "keywords": [
+    "server",
+    "presentations",
+    "articles",
+    "videos"
+  ],
   "dependencies": {
     "express": "3.1.0",
     "jade": ">=0.28.2",
-    "node-uuid": "1.4.0",
-    "formidable": "1.0.13",
     "moment": "2.0.0",
     "mongoose": "3.5.8",
     "connect-mongo": "0.3.2"
+  },
+  "engines": {
+    "node": ">=0.8"
   }
 }
