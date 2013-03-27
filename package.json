@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Tomo Wang <tomo_wang@163.com>",
   "private": true,
-  "description": "private site for enjoyabc, articles, lecturesa, presentations, videos",
+  "description": "private site for enjoyabc. management for articles, lectures, presentations, videos",
   "scripts": {
     "start": "node app"
   },
