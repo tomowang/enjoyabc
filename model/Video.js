@@ -2,9 +2,11 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , schema = Schema({
       uuid: String,
+      fmt: String,
       date: Date,
-      filename: String,
-      size: Number,
+      //filename: String,
+      //size: Number,
+      link: String,
       title: String
     });
 

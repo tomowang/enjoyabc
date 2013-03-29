@@ -7,22 +7,22 @@ block content
       .page-region-content
         each v in videos
           .image-container.bg-color-blue51.place-left
-            img(src="/downloads/#{v.uuid}.jpg")
+            img(src="/downloads/#{v.uuid}#{v.fmt}")
             .overlay #{v.title}
               | <br>
               | #{v.get_date()}
-            a.icon-download-2.bottom-right(href="/videos/#{v.uuid}", target="_blank")
+            a.icon-link.bottom-right(href="#{v.link}", target="_blank")
             - if (role === 'admin') {
               a.icon-cancel.top-right(href="#", data-uuid="#{v.uuid}")
             - }
         - if (role === 'admin') {
-          a#upload.place-left.bg-color-blue51.icon-upload-3(href="#")
+          a#upload.place-left.bg-color-blue51.icon-plus-2(href="#")
         - }
     //-include includes/footer
 
   - if (role === 'admin') {
     .dialog.modal#upload_popup
-      .modal-header New Account
+      .modal-header New Media
         i.icon-cancel.close
       .modal-content
         .alert.bg-color-red
@@ -34,8 +34,11 @@ block content
           .input-control.text
             input#title(name="title", type='text', required="required", placeholder="Title")
             button.helper(type="button", tabindex="-1")
+          .input-control.text
+            input#link(name="link", type='text', required="required", placeholder="Link")
+            button.helper(type="button", tabindex="-1")
           .input-control
-            input#video(name="video", required="required", type='file')
+            input#thumbnail(name="thumbnail", required="required", type='file', accept="image/*")
           button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Upload
           a.button.close.bg-color-red.fg-color-white#cancel Cancel
   - }
@@ -54,7 +57,8 @@ block js
             dataType: 'json',
             beforeSerialize: function($form, options){
               $('#title', $form).val($.trim($('#title', $form).val()));
-              if(!$('#title', $form).val() || !$('#video', $form).val()){
+              $('#link', $form).val($.trim($('#link', $form).val()));
+              if(!$('#title', $form).val() || !$('#title', $form).val() || !$('#thumbnail', $form).val()){
                 return false;
               }
             },
