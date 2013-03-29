@@ -3,6 +3,7 @@ var Presentation = require('../model').Presentation
   , path = require('path')
   , fs = require('fs')
   , util = require('util')
+  , glob = require('glob')
   , fmt = 'jpg'
   , uploadDir = path.join(__dirname, '..', 'public', 'downloads');
 
@@ -76,14 +77,17 @@ exports.del = function(req, res){
         res.send(500);
         return;
       }
-      var filename = path.join(uploadDir, p.uuid)
-        , thumbnail = path.join(uploadDir, util.format('%s-0.%s', uuid, fmt));
-      fs.unlink(filename, function(e){
-        if(e) console.log(e);
-        fs.unlink(thumbnail, function(e){
-          if(e) console.log(e);
-          res.send(200);
-        });
+      glob(uploadDir + util.format('/%s*', uuid), function(err, files){
+        if(err){
+          res.send(500);
+          return;
+        }
+        for(var i = 0; i < files.length; i++){
+          fs.unlink(files[i], function(e){
+            if(e) console.log(e);
+          });
+        }
+        res.send(200);
       });
     });
   });
