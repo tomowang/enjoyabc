@@ -28,7 +28,7 @@ block content
         .alert.bg-color-red
           span
           i.icon-cancel
-        form.box#fileupload(action="/videos", method="POST", enctype="multipart/form-data")
+        form.box#fileupload(action="/media", method="POST", enctype="multipart/form-data")
           .progress-bar
             .bar.bg-color-red
           .input-control.text
@@ -72,7 +72,7 @@ block js
             },
             success: function(data){
               console.log(data);
-              window.location.href = '/videos';
+              window.location.href = '/media';
             },
             error: function(jqXHR, textStatus, errorThrown){
               $('.close', popup).removeAttr('disabled').removeClass('disabled');
@@ -81,7 +81,7 @@ block js
           $('a.icon-cancel').click(function(e){
             var _this = $(this);
             $.ajax({
-              url: '/videos/' + _this.data('uuid'),
+              url: '/media/' + _this.data('uuid'),
               type: 'DELETE',
               success: function(data){
                 _this.parent('.image-container').remove();
