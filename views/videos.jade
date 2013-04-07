@@ -76,7 +76,20 @@ block js
             },
             error: function(jqXHR, textStatus, errorThrown){
               $('.close', popup).removeAttr('disabled').removeClass('disabled');
+              var rt = jqXHR.responseText
+                , jsrt = {};
+              try{
+                jsrt = $.parseJSON(rt);
+              }catch(e){
+              }
+              if(jsrt.error){
+                $('.alert span', popup).html(jsrt.error);
+                $('.alert', popup).show();
+              }
             }
+          });
+          $('.alert .icon-cancel').click(function(e){
+            $(this).parent('.alert').hide();
           });
           $('a.icon-cancel').click(function(e){
             var _this = $(this);

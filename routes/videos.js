@@ -37,6 +37,11 @@ exports.get = function(req, res){
 
 exports.post = function(req, res){
   console.log('add new video');
+  var fileType = 'image';
+  if(req.files.thumbnail.type.substring(0, fileType.length) !== fileType){
+    res.send(400, {'error': 'Invalid file type.'});
+    return;
+  }
   var oldPath = req.files.thumbnail.path
     , uuid = path.basename(oldPath)
     , filename = req.files.thumbnail.name
@@ -46,6 +51,7 @@ exports.post = function(req, res){
   //exec(util.format('avconv -i %s -ss 5 -r 1 -an -vframes 1 -f mjpeg %s', oldPath, thumbnail), function(error, stdout, stderr){
     if(error){
       res.send(500);
+      return;
     }
     v = Video({
       uuid: uuid,
