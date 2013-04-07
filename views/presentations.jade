@@ -35,7 +35,7 @@ block content
             input#title(name="title", type='text', required="required", placeholder="Title")
             button.helper(type="button", tabindex="-1")
           .input-control
-            input#presentation(name="presentation", required="required", type='file')
+            input#presentation(name="presentation", required="required", type='file', accept="application/pdf")
           button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Upload
           a.button.close.bg-color-red.fg-color-white#cancel Cancel
   - }
@@ -72,7 +72,20 @@ block js
             },
             error: function(jqXHR, textStatus, errorThrown){
               $('.close', popup).removeAttr('disabled').removeClass('disabled');
+              var rt = jqXHR.responseText
+                , jsrt = {};
+              try{
+                jsrt = $.parseJSON(rt);
+              }catch(e){
+              }
+              if(jsrt.error){
+                $('.alert span', popup).html(jsrt.error);
+                $('.alert', popup).show();
+              }
             }
+          });
+          $('.alert .icon-cancel').click(function(e){
+            $(this).parent('.alert').hide();
           });
           $('a.icon-cancel').click(function(e){
             var _this = $(this);

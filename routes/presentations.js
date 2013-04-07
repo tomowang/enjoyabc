@@ -38,12 +38,18 @@ exports.get = function(req, res){
 
 exports.post = function(req, res){
   console.log('add new presentation');
+  var fileType = 'application/pdf';
+  if(req.files.presentation.type.substring(0, fileType.length) !== fileType){
+    res.send(400, {'error': 'Invalid file type.'});
+    return;
+  }
   var oldPath = req.files.presentation.path
     , uuid = path.basename(oldPath)
     , thumbnail = path.join(path.dirname(oldPath), util.format('%s.%s', uuid, fmt));
   exec(util.format('convert %s $s', oldPath, thumbnail), function(error, stdout, stderr){
     if(error){
       res.send(500);
+      return;
     }
     if(fs.existsSync(thumbnail)){
       fs.renameSync(thumbnail, path.join(path.dirname(oldPath), util.format('%s-0.%s', uuid, fmt))); // in case the pdf only contains one page
