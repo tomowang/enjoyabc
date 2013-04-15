@@ -2429,6 +2429,9 @@ License:	CC BY-SA 3.0 -- http://creativecommons.org/licenses/by-sa/3.0/
 .metrouicss .icon-chart-alt:before {
   content: "\e168";
 }
+.metrouicss .fg-color-blueEnjoy {
+  color: #307cd9 !important;
+}
 .metrouicss .fg-color-blue51 {
   color: #000033 !important;
 }
@@ -2491,6 +2494,9 @@ License:	CC BY-SA 3.0 -- http://creativecommons.org/licenses/by-sa/3.0/
 }
 .metrouicss .fg-color-redLight {
   color: #ee1111 !important;
+}
+.metrouicss .bg-color-blueEnjoy {
+  background-color: #307CD9 !important;
 }
 .metrouicss .bg-color-blue51 {
   background-color: #000033 !important;

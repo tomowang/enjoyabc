@@ -13,7 +13,7 @@ block content
               .data
                 h4.fg-color-white #{topic.name}
                 each a in topic.articles
-                  a(href="#{a.link}") #{a.title}
+                  a(href="#{a.link}", target="_blank") #{a.title}
                   br
                 - if (role === 'admin') {
                   a.icon-cancel.top-right(href="#", data-id="#{topic.id}")
