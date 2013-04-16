@@ -92,8 +92,14 @@ div.tile-content .menu {
 div.logo .enjoy {
   color: #307cd9;
 }
+
 div.logo .abc {
   color: #000033;
+}
+
+div.tile-content ul.listview.iconic li h4 {
+  font-size: 11pt;
+  line-height: 14pt;
 }
 
 div.tile-content ul.listview.iconic li {

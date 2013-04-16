@@ -11,9 +11,19 @@ block content
               .logo
                 span.enjoy Enjoy
                 span.abc ABC
-          a.tile.double.bg-color-blueEnjoy(href="/articles")
+          a.tile.double.bg-color-blueEnjoy(href="/articles", data-role="tile-slider")
             .tile-content
               .menu Articles
+            - if (articles) {
+              .tile-content
+                ul.listview.iconic
+                  each a in articles
+                    li
+                      .icon
+                        img(src="/images/article_32.png")
+                      .data
+                        h4 #{a.title}
+            - }
           a.tile.double.bg-color-blueEnjoy(href="/lectures")
             .tile-content
               .menu Lecture<br>Calendar
