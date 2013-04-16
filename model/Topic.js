@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
   , schema = Schema({
       name: String,
       articles: [Schema({
+          date: Date,
           title: String,
           link: String
         })

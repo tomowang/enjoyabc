@@ -95,3 +95,22 @@ div.logo .enjoy {
 div.logo .abc {
   color: #000033;
 }
+
+div.tile-content ul.listview.iconic li {
+  margin-bottom: 0px;
+  padding: 0px;
+  width: auto;
+}
+
+div.tile-content ul.listview.iconic li .icon{
+  border: none;
+}
+
+#topic.listview li{
+  cursor: default;
+}
+
+#topic.listview li .data h4:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

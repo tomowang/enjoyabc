@@ -20,6 +20,7 @@ exports.post = function(req, res){
     , i;
   for(i = 0; i < req.body.title.length; i++){
     articles.push({
+      date: new Date(),
       title: req.body.title[i],
       link: req.body.link[i]
     });

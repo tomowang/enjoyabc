@@ -5,7 +5,7 @@ block content
     include includes/header
     .page-region
       .page-region-content
-        ul.listview.fluid
+        ul.listview.fluid#topic
           each topic in topics
             li.bg-color-blue51
               .icon
@@ -89,6 +89,10 @@ block js
                 window.location.href = '/articles';
               }
             });
+          });
+          $('h4').click(function(e){
+            e.preventDefault();
+            var id = $(this).siblings('a.icon-cancel').data('id');
           });
           $('form').ajaxForm({
             dataType: 'json',
