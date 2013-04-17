@@ -6,14 +6,14 @@ block content
     .page-region
       .page-region-content.tiles
         .tile-group.tile-drag
-          a.tile.double.bg-color-white(href="#")
+          .tile.double.bg-color-white
             .tile-content
               .logo
                 span.enjoy Enjoy
                 span.abc ABC
-          a.tile.double.bg-color-blueEnjoy(href="/articles", data-role="tile-slider")
+          .tile.double.bg-color-blueEnjoy(data-role="tile-slider")
             .tile-content
-              .menu Articles
+              .menu(data-url="/articles") Articles
             - if (articles) {
               .tile-content
                 ul.listview.iconic
@@ -24,16 +24,30 @@ block content
                       .data
                         h4 #{a.title}
             - }
-          a.tile.double.bg-color-blueEnjoy(href="/lectures")
+          .tile.double.bg-color-blueEnjoy
             .tile-content
-              .menu Lecture<br>Calendar
-          a.tile.double.bg-color-blueEnjoy(href="/presentations")
+              .menu(data-url="/lectures") Lecture<br>Calendar
+          .tile.double.bg-color-blueEnjoy
             .tile-content
-              .menu Presentations
-          a.tile.double.bg-color-blueEnjoy(href="/media")
+              .menu(data-url="/presentations") Presentations
+              //a(href="#", id="topic", name="topic", data-type="text", data-pk="1", data-url="/presentation/topic") #{topic}
+              span #{topic}
+          .tile.double.bg-color-blueEnjoy
             .tile-content
-              .menu Media
-          a.tile.double.bg-color-blueEnjoy(href="/contact")
+              .menu(data-url="/media") Media
+          .tile.double.bg-color-blueEnjoy
             .tile-content
-              .menu Contact Us
+              .menu(data-url="/contact") Contact Us
     //-include includes/footer
+
+block js
+  script(type='text/javascript')
+    ;(function($){
+      $(document).ready(function(e){
+        $('.menu').click(function(e){
+          e.preventDefault();
+          var url = $(this).data('url');
+          window.location.href = url;
+        });
+      });
+    })(jQuery);
