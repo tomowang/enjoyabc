@@ -89,6 +89,17 @@ div.tile-content .menu {
   margin-top: 47px;
 }
 
+div.tile-content .topic {
+  text-align: center;
+}
+
+.topic .editable-click,
+.topic a.editable-click,
+.topic a.editable-click:hover {
+  border-bottom: 1px dashed #000033;
+  text-decoration: none;
+}
+
 div.logo .enjoy {
   color: #307cd9;
 }

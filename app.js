@@ -137,6 +137,9 @@ app.map({
     '/:uuid': {
       get: [auth(), presentations.get],
       delete: [auth(), access_ctrl('admin'), presentations.del]
+    },
+    '/topic': {
+      put: [auth(), access_ctrl('admin'), routes.setTopic]
     }
   },
   '/media': {

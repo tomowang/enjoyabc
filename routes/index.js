@@ -54,3 +54,13 @@ exports.index = function(req, res){
   });
   });
 };
+
+exports.setTopic = function(req, res){
+  fs.writeFile(ptopic_path, req.body.value, function(err){
+    if(err){
+      console.log(err);
+      res.send(500, {error: true});
+    }
+    res.send(200, {error: false});
+  });
+}

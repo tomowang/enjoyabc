@@ -31,7 +31,11 @@ block content
             .tile-content
               .menu(data-url="/presentations") Presentations
               //a(href="#", id="topic", name="topic", data-type="text", data-pk="1", data-url="/presentation/topic") #{topic}
-              span #{topic}
+              div.topic
+                - if (role === 'admin')
+                  a(href="#", id="topic", name="topic", data-type="text", data-pk="1", data-original-title="Set presentation topic", data-url="/presentations/topic") #{topic}
+                - else
+                  span #{topic}
           .tile.double.bg-color-blueEnjoy
             .tile-content
               .menu(data-url="/media") Media
@@ -44,10 +48,25 @@ block js
   script(type='text/javascript')
     ;(function($){
       $(document).ready(function(e){
+        $.fn.editableContainer.defaults.className = 'tip-twitter';
         $('.menu').click(function(e){
           e.preventDefault();
           var url = $(this).data('url');
           window.location.href = url;
         });
+        $('#topic').editable({
+          ajaxOptions: {
+            type: 'put',
+            dataType: 'json'
+          }
+        });
       });
     })(jQuery);
+
+append scripts
+  script(src='/javascript/jquery.poshytip.min.js', text='text/javascript')
+  script(src='/javascript/jquery-editable-poshytip.min.js', text='text/javascript')
+
+append css
+  link(rel='stylesheet', href='/css/jquery-editable.css')
+  link(rel='stylesheet', href='/css/tip-twitter.css')
