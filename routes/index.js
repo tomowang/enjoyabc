@@ -26,7 +26,7 @@ exports.index = function(req, res){
     });
     articles = articles.slice(articles.length - 3);
     res.render('index', {
-      articles: articles
+      articles: articles.reverse()
     });
   });
 };
