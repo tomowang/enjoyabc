@@ -131,3 +131,7 @@ div.tile-content ul.listview.iconic li .icon{
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* placeholder */
+input, textarea { color: #000; }
+.placeholder { color: #aaa; }

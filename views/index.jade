@@ -30,7 +30,6 @@ block content
           .tile.double.bg-color-blueEnjoy
             .tile-content
               .menu(data-url="/presentations") Presentations
-              //a(href="#", id="topic", name="topic", data-type="text", data-pk="1", data-url="/presentation/topic") #{topic}
               div.topic
                 - if (role === 'admin')
                   a(href="#", id="topic", name="topic", data-type="text", data-pk="1", data-original-title="Set presentation topic", data-url="/presentations/topic") #{topic}
