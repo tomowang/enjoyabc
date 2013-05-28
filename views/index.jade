@@ -14,7 +14,7 @@ block content
           .tile.double.bg-color-blueEnjoy(data-role="tile-slider")
             .tile-content
               .menu(data-url="/articles") Articles
-            - if (articles) {
+            - if (articles.length) {
               .tile-content
                 ul.listview.iconic
                   each a in articles
