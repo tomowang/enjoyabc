@@ -1,6 +1,24 @@
-.page-header
-  .page-header-content
-    a.back-button.page-back(href="/")
-    .place-right(style="position: absolute; right: 0px; top: 34px;")
-      a(href="/logoff") Sign out
-        i.icon-exit.big
+- if (role === 'admin') {
+  .nav-bar
+    .nav-bar-inner.padding10
+      a(href="/")
+        span.element.brand.logo Enjoy
+          span.abc ABC
+      span.divider
+      ul.menu
+        li
+          a(href="/") Home
+        li
+          a(href="/articles") Articles
+        li
+          a(href="/lectures") Lecture Calendar
+        li
+          a(href="/presentations") Presentations
+        li
+          a(href="/media") Media
+        li
+          a(href="/contact") Contact Us
+        li.place-right
+          a(href="/logoff") Logoff
+            i.icon-arrow-right-3
+- }

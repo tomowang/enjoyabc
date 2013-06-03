@@ -6,14 +6,14 @@ block content
     .page-region
       .page-region-content
         each v in videos
-          .image-container.bg-color-blue51.place-left
-            img(src="/downloads/#{v.uuid}#{v.fmt}")
+          .image-container.bg-color-blue51.place-left(style="width: 490px;")
+            | !{v.embed}
             .overlay #{v.title}
               | <br>
               | #{v.get_date()}
             a.icon-link.bottom-right(href="#{v.link}", target="_blank")
             - if (role === 'admin') {
-              a.icon-cancel.top-right(href="#", data-uuid="#{v.uuid}")
+              a.icon-cancel.top-right(href="#", data-uuid="#{v._id}")
             - }
         - if (role === 'admin') {
           a#upload.place-left.bg-color-blue51.icon-plus-2(href="#")
@@ -28,18 +28,15 @@ block content
         .alert.bg-color-red
           span
           i.icon-cancel
-        form.box#fileupload(action="/media", method="POST", enctype="multipart/form-data")
+        form.box#fileupload(action="/media", method="POST")
           .progress-bar
             .bar.bg-color-red
           .input-control.text
             input#title(name="title", type='text', required="required", placeholder="Title")
             button.helper(type="button", tabindex="-1")
-          .input-control.text
-            input#link(name="link", type='text', required="required", placeholder="Link")
-            button.helper(type="button", tabindex="-1")
-          .input-control
-            input#thumbnail(name="thumbnail", required="required", type='file', accept="image/*")
-          button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Upload
+          .input-control.textarea
+            textarea#embed(name="embed", type='text', required="required", placeholder="Embed HTML code...")
+          button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Add
           a.button.close.bg-color-red.fg-color-white#cancel Cancel
   - }
 
@@ -57,8 +54,8 @@ block js
             dataType: 'json',
             beforeSerialize: function($form, options){
               $('#title', $form).val($.trim($('#title', $form).val()));
-              $('#link', $form).val($.trim($('#link', $form).val()));
-              if(!$('#title', $form).val() || !$('#title', $form).val() || !$('#thumbnail', $form).val()){
+              $('#embed', $form).val($.trim($('#embed', $form).val()));
+              if(!$('#title', $form).val() || !$('#embed', $form).val()){
                 return false;
               }
             },
@@ -71,7 +68,6 @@ block js
               $('.bar', popup).css('width', done + '%');
             },
             success: function(data){
-              console.log(data);
               window.location.href = '/media';
             },
             error: function(jqXHR, textStatus, errorThrown){

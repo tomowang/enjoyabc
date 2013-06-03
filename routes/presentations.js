@@ -16,6 +16,7 @@ exports.list = function(req, res){
     }
     res.render('presentations', {
       role: req.session.role,
+      username: req.session.username,
       presentations: docs
     });
   });
@@ -54,15 +55,25 @@ exports.post = function(req, res){
     if(fs.existsSync(thumbnail)){
       fs.renameSync(thumbnail, path.join(path.dirname(oldPath), util.format('%s-0.%s', uuid, fmt))); // in case the pdf only contains one page
     }
-    p = Presentation({
-      uuid: uuid,
-      date: new Date(),
-      filename: req.files.presentation.name,
-      title: req.body.title,
-      size: req.files.presentation.size
+    fs.readdir(path.dirname(oldPath), function(err, files){
+      if(err){
+        res.send(500);
+        return;
+      }
+      var count = files.filter(function(fname){
+        return fname.indexOf(uuid + '-') === 0;
+      }).length;
+      p = Presentation({
+        uuid: uuid,
+        date: new Date(),
+        filename: req.files.presentation.name,
+        title: req.body.title,
+        count: count,
+        size: req.files.presentation.size
+      });
+      p.save();
+      res.send(201, {id: uuid});
     });
-    p.save();
-    res.send(201, {id: uuid});
   });
 };
 

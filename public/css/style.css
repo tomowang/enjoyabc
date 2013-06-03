@@ -1,5 +1,5 @@
 .metrouicss .page.thirdary {
-  width: 962px;
+  width: 940px;
   margin: auto;
   background-color: white;
 }
@@ -100,10 +100,12 @@ div.tile-content .topic {
   text-decoration: none;
 }
 
+.logo .enjoy,
 div.logo .enjoy {
   color: #307cd9;
 }
 
+.logo .abc,
 div.logo .abc {
   color: #000033;
 }
@@ -123,6 +125,10 @@ div.tile-content ul.listview.iconic li .icon{
   border: none;
 }
 
+#topic.listview {
+  margin-left: 0;
+}
+
 #topic.listview li{
   cursor: default;
 }
@@ -130,4 +136,49 @@ div.tile-content ul.listview.iconic li .icon{
 #topic.listview li .data h4:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.metrouicss .nav-bar .nav-bar-inner > ul.menu > li > a.active {
+  color: #000033;
+}
+
+.carousel#videos {
+  height: 474px;
+}
+
+.carousel .embed-video {
+  border: 1px solid #D5E7EC;
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: baseline;
+  display: block;
+  font: inherit;
+}
+
+.metrouicss .carousel#videos .control {
+  font-size: 32px;
+}
+
+div.lecture {
+  padding: 10px 15px;
+}
+
+.metrouicss [class*="span"] div.lecture {
+  margin-bottom: 5px;
+  margin-right: 0px;
+}
+
+div.presentation {
+  height: 220px;
+  overflow: hidden;
+}
+
+div.randomimage {
+  height: 395px;
+  overflow: hidden;
+}
+
+div.scroll-div {
+  height: 450px;
+  overflow: scroll;
 }
