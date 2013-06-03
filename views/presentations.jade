@@ -6,15 +6,17 @@ block content
     .page-region
       .page-region-content
         each p in presentations
-          .image-container.bg-color-blue51.place-left
-            img(src="/downloads/#{p.uuid}-0.jpg")
-            .overlay #{p.title}
-              | <br>
-              | #{p.get_date()}
-            a.icon-download-2.bottom-right(href="/presentations/#{p.uuid}", target="_blank")
-            - if (role === 'admin') {
-              a.icon-cancel.top-right(href="#", data-uuid="#{p.uuid}")
-            - }
+          .span4.place-left
+            .image-container.bg-color-blue51(style="width: 100%;")
+              .presentation
+                img(src="/downloads/#{p.uuid}-0.jpg")
+              .overlay #{p.title}
+                | <br>
+                | #{p.get_date()}
+              a.icon-download-2.bottom-right(href="/presentations/#{p.uuid}", target="_blank")
+              - if (role === 'admin') {
+                a.icon-cancel.top-right(href="#", data-uuid="#{p.uuid}")
+              - }
         - if (role === 'admin') {
           a#upload.place-left.bg-color-blue51.icon-upload-3(href="#")
         - }

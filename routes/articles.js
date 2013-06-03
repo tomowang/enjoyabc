@@ -9,6 +9,7 @@ exports.list = function(req, res){
     }
     res.render('articles', {
       role: req.session.role,
+      username: req.session.username,
       topics: docs
     });
   });

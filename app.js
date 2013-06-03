@@ -96,7 +96,8 @@ var access_ctrl = function(role){
       next();
     }
     else{
-      res.send(403);
+      res.redirect('/login');
+      //res.send(403);
     }
   }
 }
@@ -104,7 +105,7 @@ var access_ctrl = function(role){
 // DEAL - delete, edit, add, list
 app.map({
   '/': {
-    get: [auth(), routes.index]
+    get: [routes.index]
   },
   '/login': {
     get: login.get,   // login page
@@ -118,43 +119,40 @@ app.map({
     post: users.add   // add user, register
   },
   '/articles': {
-    get: [auth(), articles.list],
+    get: [auth(), access_ctrl('admin'), articles.list],
     post: [auth(), access_ctrl('admin'), articles.post],
     '/:tid': {
       delete: [auth(), access_ctrl('admin'), articles.del]
     }
   },
   '/lectures': {
-    get: [auth(), lectures.list],
+    get: [auth(), access_ctrl('admin'), lectures.list],
     post: [auth(), access_ctrl('admin'), lectures.post],
     '/:id': {
       delete: [auth(), access_ctrl('admin'), lectures.del]
     }
   },
   '/presentations': {
-    get: [auth(), presentations.list],
+    get: [auth(), access_ctrl('admin'), presentations.list],
     post: [auth(), access_ctrl('admin'), presentations.post],
     '/:uuid': {
-      get: [auth(), presentations.get],
+      get: [presentations.get],
       delete: [auth(), access_ctrl('admin'), presentations.del]
-    },
-    '/topic': {
-      put: [auth(), access_ctrl('admin'), routes.setTopic]
     }
   },
   '/media': {
-    get: [auth(), videos.list],
+    get: [auth(), access_ctrl('admin'), videos.list],
     post: [auth(), access_ctrl('admin'), videos.post],
     '/:uuid': {
-      get: [auth(), videos.get],
+      //get: [videos.get],
       delete: [auth(), access_ctrl('admin'), videos.del]
     }
   },
   '/downloads': {
-    get: auth()
+    //get: auth()
   },
   '/contact': {
-    get: [auth(), require('./routes/contact').get]  // contact us page
+    get: [auth(), access_ctrl('admin'), require('./routes/contact').get]  // contact us page
   }
 });
 
