@@ -71,12 +71,17 @@ div.modal .modal-content {
 }
 
 
-.logo,
+.metrouicss .logo,
 div.tile-content .logo,
 div.tile-content .menu {
   font-family:'La-chata',Sans-Serif;
   line-height: 100%;
   text-align: center;
+}
+
+.metrouicss .logo {
+  font-size: 64px;
+  padding: 5px 0 15px 0;
 }
 
 div.tile-content .logo {
@@ -181,4 +186,12 @@ div.randomimage {
 div.scroll-div {
   height: 450px;
   overflow: scroll;
+}
+
+.light-blue {
+  color: #00AEEF;
+}
+
+.dark-blue {
+  color: #0D014D;
 }
