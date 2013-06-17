@@ -27,6 +27,7 @@ var express = require('express')
   , articles = require('./routes/articles')
   , lectures = require('./routes/lectures')
   , presentations = require('./routes/presentations')
+  , pictures = require('./routes/pictures')
   , videos = require('./routes/videos')
   , http = require('http')
   , path = require('path');
@@ -138,6 +139,16 @@ app.map({
     '/:uuid': {
       get: [presentations.get],
       delete: [auth(), access_ctrl('admin'), presentations.del]
+    }
+  },
+  '/pictures': {
+    get: [auth(), access_ctrl('admin'), pictures.list],
+    post: [auth(), access_ctrl('admin'), pictures.post],
+    '/:filename': {
+      delete: [auth(), access_ctrl('admin'), pictures.del],
+      '/next': {
+        get: [pictures.next]
+      }
     }
   },
   '/media': {

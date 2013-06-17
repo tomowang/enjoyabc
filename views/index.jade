@@ -16,7 +16,6 @@ block content
                         .embed-video
                           h2 #{v.title}
                           | !{v.embed}
-                          //| <embed src="http://player.youku.com/player.php/sid/XNTQwOTAzNTU2/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
                           div #{v.get_date()}
                   - }
                 span.control.left.fg-color-blue
@@ -39,7 +38,7 @@ block content
             .span8
               .image-container.bg-color-lighten(style="width: 100%; margin-bottom: 0px;")
                 .randomimage
-                  img(src="/pool/abc.png")
+                  img(src="/pool/#{picture}", data-filename="#{picture}")
             .span4.scroll-div
               each l in lectures
                 .span4.bg-color-blueLight.lecture
@@ -110,6 +109,19 @@ block js
           }
           init_slides();
         });
+        var p_filename
+          , random_picture = setInterval(function(){
+          p_filename = $('.randomimage img').data('filename');
+          $.ajax({
+            url: '/pictures/' + p_filename + '/next',
+            dataType: 'json',
+            success: function(data){
+              p_filename = data.filename;
+              $('.randomimage img').data('filename', p_filename);
+              $('.randomimage img').attr('src', '/pool/' + p_filename);
+            }
+          });
+        }, 5000);
       });
     })(jQuery);
 
