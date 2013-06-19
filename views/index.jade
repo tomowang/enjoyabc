@@ -23,7 +23,7 @@ block content
                 span.control.right.fg-color-blue
                   i.icon-arrow-right-3
             .span4.scroll-div(style="height: 474px;")
-              .text-left.bg-color-blue
+              .text-left.bg-color-blueLight
                 h2.text-center Latest Articles
                 ul.listview(style="margin-left: 0;")
                   each a in articles
@@ -31,7 +31,8 @@ block content
                       .icon
                         img(src="/images/article_32.png")
                       .data
-                        h2.fg-color-white #{a.title}
+                        h2.fg-color-white(style="margin: 0px;")
+                          a(href="#{a.link}", target="_blank") #{a.title}
         .grid
           .row
             h2.text-right Lectures
