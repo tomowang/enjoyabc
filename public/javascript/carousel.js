@@ -88,11 +88,11 @@
                 // prev next buttons handlers
                 $element.find('span.control.left').on('click', function(){
                     changeSlide('left');
-                    startAutoSlide();
+                    //startAutoSlide();
                 });
                 $element.find('span.control.right').on('click', function(){
                     changeSlide('right');
-                    startAutoSlide();
+                    //startAutoSlide();
                 });
             } else {
                 $element.find('span.control').hide();

@@ -4,8 +4,12 @@
  */
 
 var Topic = require('../model').Topic
+  , Video = require('../model').Video
+  , Presentation = require('../model').Presentation
+  , Lecture = require('../model').Lecture
   , path = require('path')
   , fs = require('fs')
+  , poolDir = path.join(__dirname, '..', 'public', 'pool')
   , ptopic_path = path.join(__dirname, '..', 'ptopic');
 
 fs.exists(ptopic_path, function(exists){
@@ -21,8 +25,13 @@ fs.exists(ptopic_path, function(exists){
 exports.index = function(req, res){
   var default_data = {
     role: req.session.role,
+    username: req.session.username,
     topic: '',
-    articles: []
+    articles: [],
+    videos: [],
+    lectures: [],
+    picture: '',
+    presentations: []
   };
   fs.readFile(ptopic_path, function(err, data){   // get the presentation topic from file
     if(err){
@@ -47,10 +56,44 @@ exports.index = function(req, res){
       }
     }
     articles.sort(function(m, n){
-      return m.date - n.date;
+      return n.date - m.date;
     });
-    default_data.articles = articles.slice(articles.length - 3).reverse();
-    res.render('index', default_data);
+    default_data.articles = articles;
+    Video.find().sort('-date').exec(function(err, vs){
+      if(err){
+        res.render('index', default_data);
+        return;
+      }
+      default_data.videos = vs;
+      Presentation.find().sort('-date').exec(function(err, p){
+        if(err){
+          res.render('index', default_data);
+          return;
+        }
+        default_data.presentations = p;    
+        Lecture.find().sort('-date').exec(function(err, l){
+          if(err){
+            res.render('index', default_data);
+            return;
+          }
+          default_data.lectures = l;    
+          fs.readdir(poolDir, function(err, files){
+            if(err){
+              res.render('index', default_data);
+              return;
+            }
+            var length = files.length
+              , index;
+            if(length > 0){
+              index = Math.floor(Math.random()*length);
+              default_data.picture = files[index];
+            }
+            res.render('index', default_data);
+            return;
+          });
+        });
+      });
+    });
   });
   });
 };

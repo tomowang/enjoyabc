@@ -1,9 +1,5 @@
-/**
- * @author tomo
- */
-'use strict';
-;(function($){
-  $(document).ready(function(){
-    $('input, textarea').placeholder();
+;(function($) {
+  $(document).ready(function() {
+    $("a[href='"+ window.location.pathname +"']").addClass("active");
   });
 })(jQuery);
