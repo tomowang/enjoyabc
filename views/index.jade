@@ -4,43 +4,75 @@ block content
   .page.thirdary
     include includes/header
     .page-region
-      .page-region-content.tiles
-        .tile-group.tile-drag
-          .tile.double.bg-color-white
-            .tile-content
-              .logo
-                span.enjoy Enjoy
-                span.abc ABC
-          .tile.double.bg-color-blueEnjoy(data-role="tile-slider")
-            .tile-content
-              .menu(data-url="/articles") Articles
-            - if (articles.length) {
-              .tile-content
-                ul.listview.iconic
+      .page-region-content
+        .grid
+          .row
+            .span8
+              #videos.carousel(data-role="carousel", data-param-auto="false", data-param-effect="fade")
+                .slides
+                  - if (videos.length) {
+                    each v in videos
+                      .slide
+                        .embed-video
+                          h2 #{v.title}
+                          | !{v.embed}
+                          div #{v.get_date()}
+                  - }
+                span.control.left.fg-color-blue
+                  i.icon-arrow-left-3
+                span.control.right.fg-color-blue
+                  i.icon-arrow-right-3
+            .span4.scroll-div(style="height: 474px;")
+              .text-left.bg-color-blueLight
+                h2.text-center Latest Articles
+                ul.listview(style="margin-left: 0;")
                   each a in articles
                     li
                       .icon
                         img(src="/images/article_32.png")
                       .data
-                        h4 #{a.title}
-            - }
-          .tile.double.bg-color-blueEnjoy
-            .tile-content
-              .menu(data-url="/lectures") Lecture<br>Calendar
-          .tile.double.bg-color-blueEnjoy
-            .tile-content
-              .menu(data-url="/presentations") Presentations
-              div.topic
-                - if (role === 'admin')
-                  a(href="#", id="topic", name="topic", data-type="text", data-pk="1", data-original-title="Set presentation topic", data-url="/presentations/topic") #{topic}
-                - else
-                  span #{topic}
-          .tile.double.bg-color-blueEnjoy
-            .tile-content
-              .menu(data-url="/media") Media
-          .tile.double.bg-color-blueEnjoy
-            .tile-content
-              .menu(data-url="/contact") Contact Us
+                        h2.fg-color-white(style="margin: 0px;")
+                          a(href="#{a.link}", target="_blank") #{a.title}
+        .grid
+          .row
+            h2.text-right Lectures
+            .span8
+              .image-container.bg-color-lighten(style="width: 100%; margin-bottom: 0px;")
+                .randomimage
+                  img(src="/pool/#{picture}", data-filename="#{picture}")
+            .span4.scroll-div
+              each l in lectures
+                .span4.bg-color-blueLight.lecture
+                  h4 Topic: #{l.topic}
+                  h5 Lecturer: #{l.lecturer}
+                  h5 Location: #{l.location}
+                  h5 Date: #{l.get_date()}
+        .grid
+          .row
+            h2.text-right Presentations
+            .span8
+              .jcarousel-wrapper.bg-color-lighten
+                .jcarousel(data-jcarousel="true", data-wrap="circular")
+                  ul(style="margin: 0px;")
+                    - var fp = presentations[0];
+                    - for (var i = 0; i < fp.count; ++i) {
+                      li
+                        img(src="/downloads/#{fp.uuid}-#{i}.jpg")
+                    - }
+                //a.jcarousel-control-prev(data-jcarousel-control="true", data-target="-=1", href="#") &lsaquo;
+                //a.jcarousel-control-next(data-jcarousel-control="true", data-target="+=1", href="#") &rsaquo;
+                .jcarousel-nav
+                  i.fg-color-blue.icon-arrow-left-3.jcarousel-control-prev(data-jcarousel-control="true", data-target="-=1")
+                  i.fg-color-blue.icon-arrow-right-3.jcarousel-control-next(data-jcarousel-control="true", data-target="+=1")
+            .span4.scroll-div(style="height: 517px;")
+              each p in presentations
+                .span4
+                  .image-container.bg-color-lighten(style="width: 100%; cursor: pointer;", data-type="presentation", data-uuid="#{p.uuid}", data-count="#{p.count}")
+                    .presentation
+                      img(src="/downloads/#{p.uuid}-0.jpg")
+                    .overlay
+                      .padding10.fg-color-grayDark.tertiary-text Title: #{p.title}
+
     //-include includes/footer
 
 block js
@@ -48,24 +80,58 @@ block js
     ;(function($){
       $(document).ready(function(e){
         $.fn.editableContainer.defaults.className = 'tip-twitter';
-        $('.menu').click(function(e){
-          e.preventDefault();
-          var url = $(this).data('url');
-          window.location.href = url;
-        });
         $('#topic').editable({
           ajaxOptions: {
             type: 'put',
             dataType: 'json'
           }
         });
+        var init_slides = function(){
+          $('.jcarousel').jcarousel($('.jcarousel').data());
+
+          $('[data-jcarousel-control]').each(function() {
+            var el = $(this);
+            el.jcarouselControl(el.data());
+          });
+          $('.jcarousel').jcarousel('scroll', 0);
+        };
+        init_slides();
+        $('.image-container[data-type="presentation"]').click(function(e){
+          $('.jcarousel').jcarousel('destroy');
+          $('.jcarousel ul').empty();
+          var count = parseInt($(this).data('count'), 10)
+            , uuid = $(this).data('uuid')
+            , slide = $('<li><img /></li>')
+            , tmp;
+          for(var i = 0; i < count; i++){
+            tmp = slide.clone();
+            $('img', tmp).attr('src', '/downloads/' + uuid + '-' + i + '.jpg');
+            $('.jcarousel ul').append(tmp);
+          }
+          init_slides();
+        });
+        var p_filename
+          , random_picture = setInterval(function(){
+          p_filename = $('.randomimage img').data('filename');
+          $.ajax({
+            url: '/pictures/' + p_filename + '/next',
+            dataType: 'json',
+            success: function(data){
+              p_filename = data.filename;
+              $('.randomimage img').data('filename', p_filename);
+              $('.randomimage img').attr('src', '/pool/' + p_filename);
+            }
+          });
+        }, 5000);
       });
     })(jQuery);
 
 append scripts
   script(src='/javascript/jquery.poshytip.min.js', text='text/javascript')
   script(src='/javascript/jquery-editable-poshytip.min.js', text='text/javascript')
+  script(src='/javascript/jquery.jcarousel.min.js', text='text/javascript')
 
 append css
   link(rel='stylesheet', href='/css/jquery-editable.css')
   link(rel='stylesheet', href='/css/tip-twitter.css')
+  link(rel='stylesheet', href='/css/jcarousel.simple.css')

@@ -5,38 +5,32 @@ block content
     include includes/header
     .page-region
       .page-region-content
-        each v in videos
-          .image-container.bg-color-blue51.place-left(style="width: 490px;")
-            | !{v.embed}
-            .overlay #{v.title}
-              | <br>
-              | #{v.get_date()}
-            //a.icon-link.bottom-right(href="#{v.link}", target="_blank")
-            - if (role === 'admin') {
-              a.icon-cancel.top-right(href="#", data-uuid="#{v._id}")
-            - }
+        .image-collection
+          each p in pictures
+            div
+              img(src="/pool/#{p}")
+              - if (role === 'admin') {
+                a.icon-cancel.top-right(href="#", data-filename="#{p}")
+              - }
         - if (role === 'admin') {
-          a#upload.place-left.bg-color-blue51.icon-plus-2(href="#")
+          a#upload.place-left.bg-color-blue51.icon-upload-3(href="#")
         - }
     //-include includes/footer
 
   - if (role === 'admin') {
     .dialog.modal#upload_popup
-      .modal-header New Media
+      .modal-header Upload pictures
         i.icon-cancel.close
       .modal-content
         .alert.bg-color-red
           span
           i.icon-cancel
-        form.box#fileupload(action="/media", method="POST")
+        form.box#fileupload(action="/pictures", method="POST", enctype="multipart/form-data")
           .progress-bar
             .bar.bg-color-red
-          .input-control.text
-            input#title(name="title", type='text', required="required", placeholder="Title")
-            button.helper(type="button", tabindex="-1")
-          .input-control.textarea
-            textarea#embed(name="embed", type='text', required="required", placeholder="Embed HTML code...")
-          button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Add
+          .input-control
+            input#pictures(name="pictures", required="required", type='file', accept="images/*", multiple)
+          button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Upload
           a.button.close.bg-color-red.fg-color-white#cancel Cancel
   - }
 
@@ -48,16 +42,11 @@ block js
           var popup = $('#upload_popup');
           $('#upload').click(function(e){
             $('.alert', popup).hide();
-            popup.lightbox_me();
+            popup.lightbox_me();          
           });
           $('form').ajaxForm({
             dataType: 'json',
             beforeSerialize: function($form, options){
-              $('#title', $form).val($.trim($('#title', $form).val()));
-              $('#embed', $form).val($.trim($('#embed', $form).val()));
-              if(!$('#title', $form).val() || !$('#embed', $form).val()){
-                return false;
-              }
             },
             beforeSubmit: function(formData, jqForm, options){
               var $form = jqForm[0];
@@ -68,7 +57,7 @@ block js
               $('.bar', popup).css('width', done + '%');
             },
             success: function(data){
-              window.location.href = '/media';
+              window.location.href = '/pictures';
             },
             error: function(jqXHR, textStatus, errorThrown){
               $('.close', popup).removeAttr('disabled').removeClass('disabled');
@@ -90,10 +79,10 @@ block js
           $('a.icon-cancel').click(function(e){
             var _this = $(this);
             $.ajax({
-              url: '/media/' + _this.data('uuid'),
+              url: '/pictures/' + _this.data('filename'),
               type: 'DELETE',
               success: function(data){
-                _this.parent('.image-container').remove();
+                _this.parent('div').remove();
               }
             });
           });

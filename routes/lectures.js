@@ -10,6 +10,7 @@ exports.list = function(req, res){
     }
     res.render('lectures', {
       role: req.session.role,
+      username: req.session.username,
       lectures: docs
     });
   });

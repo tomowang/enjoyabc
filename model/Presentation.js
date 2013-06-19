@@ -5,6 +5,7 @@ var mongoose = require('mongoose')
       date: Date,
       filename: String,
       size: Number,
+      count: Number,
       title: String
     });
 

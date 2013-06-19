@@ -1,12 +1,8 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , schema = Schema({
-      uuid: String,
-      fmt: String,
       date: Date,
-      //filename: String,
-      //size: Number,
-      link: String,
+      embed: String,
       title: String
     });
 
