@@ -7,6 +7,11 @@ var Presentation = require('../model').Presentation
   , uploadDir = path.join(__dirname, '..', 'public', 'downloads')
   , poolDir = path.join(__dirname, '..', 'public', 'pool');
 
+fs.stat(poolDir, function(err, stats){
+  if(err){
+    fs.mkdirSync(poolDir);
+  }
+});
 exports.list = function(req, res){
   console.log('list pictures');
   fs.readdir(poolDir, function(err, files){
