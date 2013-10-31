@@ -38,7 +38,7 @@ block content
               .jcarousel-wrapper.bg-color-lighten
                 .jcarousel(data-jcarousel="true", data-wrap="circular")
                   ul(style="margin: 0px;")
-                    - var fp = presentations[0];
+                    - var fp = presentations[0] || [];
                     - for (var i = 0; i < fp.count; ++i) {
                       li
                         img(src="/downloads/#{fp.uuid}-#{i}.jpg")
