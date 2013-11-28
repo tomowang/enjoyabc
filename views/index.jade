@@ -80,13 +80,6 @@ block js
   script(type='text/javascript').
     ;(function($){
       $(document).ready(function(e){
-        $.fn.editableContainer.defaults.className = 'tip-twitter';
-        $('#topic').editable({
-          ajaxOptions: {
-            type: 'put',
-            dataType: 'json'
-          }
-        });
         var init_slides = function(){
           $('.jcarousel').jcarousel($('.jcarousel').data());
 
@@ -128,11 +121,7 @@ block js
     })(jQuery);
 
 append scripts
-  script(src='/javascript/jquery.poshytip.min.js', text='text/javascript')
-  script(src='/javascript/jquery-editable-poshytip.min.js', text='text/javascript')
   script(src='/javascript/jquery.jcarousel.min.js', text='text/javascript')
 
 append css
-  link(rel='stylesheet', href='/css/jquery-editable.css')
-  link(rel='stylesheet', href='/css/tip-twitter.css')
   link(rel='stylesheet', href='/css/jcarousel.simple.css')

@@ -9,37 +9,18 @@ var Topic = require('../model').Topic
   , Lecture = require('../model').Lecture
   , path = require('path')
   , fs = require('fs')
-  , poolDir = path.join(__dirname, '..', 'public', 'pool')
-  , ptopic_path = path.join(__dirname, '..', 'ptopic');
-
-fs.exists(ptopic_path, function(exists){
-  if(!exists){
-    fs.writeFile(ptopic_path, '', function(err){  // create one when not exist
-      if(err){
-        console.log(err);
-      }
-    });
-  }
-});
+  , poolDir = path.join(__dirname, '..', 'public', 'pool');
 
 exports.index = function(req, res){
   var default_data = {
     role: req.session.role,
     username: req.session.username,
-    topic: '',
     articles: [],
     videos: [],
     lectures: [],
     picture: '',
     presentations: []
   };
-  fs.readFile(ptopic_path, function(err, data){   // get the presentation topic from file
-    if(err){
-      console.log(err);
-    }
-    else{
-      default_data.topic = data;
-    }
   Topic.find({}, function(err, docs){
     if(err){
       res.render('index', default_data);
@@ -95,15 +76,4 @@ exports.index = function(req, res){
       });
     });
   });
-  });
 };
-
-exports.setTopic = function(req, res){
-  fs.writeFile(ptopic_path, req.body.value, function(err){
-    if(err){
-      console.log(err);
-      res.send(500, {error: true});
-    }
-    res.send(200, {error: false});
-  });
-}
