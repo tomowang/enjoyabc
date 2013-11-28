@@ -7,6 +7,7 @@ This is website based on [node.js](http://nodejs.org/) and [express.js](http://e
   * node
   * mongodb
   * [imagemagick](http://www.imagemagick.org/) - to convert PDF to images
+  * [avconv](http://libav.org/avconv.html) - to extract thumbnail form video
   * [ghostscript](http://www.ghostscript.com/) - used by imagemagick to convert PDF
 
 ### License

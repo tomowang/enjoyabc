@@ -36,6 +36,7 @@
 
     apt-get install git
     apt-get install imagemagick
+    apt-get install libav-tools
     npm install -g forever
 
 ### Installation
@@ -60,6 +61,7 @@ add nginx configure file to `/etc/nginx/sites-available/` (file name `enjoyabc`)
         listen   80;
     
         server_name _;
+        client_max_body_size 0;
     
         location / {
             proxy_set_header X-Real-IP $remote_addr;
