@@ -195,3 +195,6 @@ div.scroll-div {
 .dark-blue {
   color: #0D014D;
 }
+
+input, textarea { color: #000; }
+.placeholder { color: #aaa; }

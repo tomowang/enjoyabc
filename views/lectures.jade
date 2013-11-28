@@ -71,7 +71,6 @@ block js
               url: '/lectures/' + _this.data('id'),
               type: 'DELETE',
               success: function(data){
-                console.log(data);
                 _this.parents('tr').remove();
               }
             });
@@ -90,11 +89,9 @@ block js
               return valid;
             },
             success: function(data){
-              console.log(data);
               window.location.href = '/lectures';
             },
             error: function(jqXHR, textStatus, errorThrown){
-              console.log(jqXHR);
             }
           });
         });
@@ -104,4 +101,3 @@ block js
 append scripts
   script(src='/javascript/jquery.lightbox_me.js', text='text/javascript')
   script(src='/javascript/jquery.form.js', text='text/javascript')
-  script(src='/javascript/moment.min.js', text='text/javascript')

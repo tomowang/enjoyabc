@@ -81,11 +81,9 @@ block js
               url: '/articles/' + _this.data('id'),
               type: 'DELETE',
               success: function(data){
-                console.log(data);
                 _this.parents('li').remove();
               },
               error: function(jqXHR, textStatus, errorThrown){
-                console.log(jqXHR);
                 window.location.href = '/articles';
               }
             });
@@ -110,11 +108,9 @@ block js
             beforeSubmit: function(formData, jqForm, options){
             },
             success: function(data){
-              console.log(data);
               window.location.href = '/articles';
             },
             error: function(jqXHR, textStatus, errorThrown){
-              console.log(jqXHR);
               window.location.href = '/articles';
             }
           });
