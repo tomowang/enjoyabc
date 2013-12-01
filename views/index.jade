@@ -41,7 +41,7 @@ block content
                     - var fp = presentations[0] || [];
                     - for (var i = 0; i < fp.count; ++i) {
                       li
-                        img(src="/downloads/#{fp.uuid}-#{i}.jpg")
+                        img.lazy(data-original="/downloads/#{fp.uuid}-#{i}.jpg")
                     - }
                 //a.jcarousel-control-prev(data-jcarousel-control="true", data-target="-=1", href="#") &lsaquo;
                 //a.jcarousel-control-next(data-jcarousel-control="true", data-target="+=1", href="#") &rsaquo;

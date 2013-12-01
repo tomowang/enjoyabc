@@ -8,7 +8,7 @@ block content
         .image-collection
           each p in pictures
             div
-              img(src="/pool/#{p}")
+              img.lazy(data-original="/pool/#{p}")
               - if (role === 'admin') {
                 a.icon-cancel.top-right(href="#", data-filename="#{p}")
               - }
