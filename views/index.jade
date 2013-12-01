@@ -24,7 +24,7 @@ block content
                   i.icon-arrow-left-3
                 span.control.right.fg-color-blue
                   i.icon-arrow-right-3
-            .span4.scroll-div(style="height: 474px;")
+            .span4.scroll-div(style="margin-right: 0; height: 474px;")
               each l in lectures
                 .span4.bg-color-blueLight.lecture
                   h4 Topic: #{l.topic}
@@ -48,7 +48,7 @@ block content
                 .jcarousel-nav
                   i.fg-color-blue.icon-arrow-left-3.jcarousel-control-prev(data-jcarousel-control="true", data-target="-=1")
                   i.fg-color-blue.icon-arrow-right-3.jcarousel-control-next(data-jcarousel-control="true", data-target="+=1")
-            .span4.scroll-div(style="height: 517px;")
+            .span4.scroll-div(style="margin-right: 0; height: 517px;")
               each p in presentations
                 .span4
                   .image-container.bg-color-lighten(style="width: 100%; cursor: pointer;", data-type="presentation", data-uuid="#{p.uuid}", data-count="#{p.count}")
@@ -62,7 +62,7 @@ block content
               .image-container.bg-color-lighten(style="width: 100%; margin-bottom: 0px;")
                 .randomimage
                   img(src="/pool/#{picture}", data-filename="#{picture}")
-            .span4.scroll-div
+            .span4.scroll-div(style="margin-right: 0;")
               .text-left.bg-color-blueLight
                 h2.text-center Latest Articles
                 ul.listview(style="margin-left: 0;")
