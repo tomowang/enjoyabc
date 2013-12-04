@@ -11,14 +11,29 @@ block content
             h2.text-right Lectures
             .span8
               - if (videos.length) {
-                #videos.flowplayer
+                #videos
                   video(preload="none", poster="/downloads/#{videos[0].uuid}.jpg")
                     source(type="video/mp4", src="/media/#{videos[0].uuid}.mp4")
-                  a.fp-prev
-                  a.fp-next
-                  .fp-playlist
-                    each v in videos
-                      a(href="/media/#{v.uuid}.mp4", style="background-image: url('/downloads/#{v.uuid}.png');")
+                  //a.fp-prev
+                  //a.fp-next
+                .scrollable-wrap
+                  a.prev
+                  .scrollable
+                    .items
+                      - var v, i;
+                      - for (i = 0; i < videos.length; i++) {
+                      - v = videos[i];
+                      - if (i % 5 === 0) {
+                        - if (i === 0) {
+                          | <div>
+                        - } else {
+                          | </div><div>
+                        - }
+                      - }
+                          a(data-uuid="#{v.uuid}", style="background-image: url('/downloads/#{v.uuid}.png');")
+                      - }
+                      | </div>
+                  a.next
               - }
             .span4.scroll-div(style="margin-right: 0; height: 474px;")
               each l in lectures
@@ -112,9 +127,61 @@ block js
               $('.randomimage img').attr('src', '/pool/' + p_filename);
             }
           });
-        }, 6000000);
+        }, 10);
       });
       //$(".player").flowplayer({swf: "/javascript/flowplayer.swf"});
+      var playlist = []
+        , videos = $(".scrollable a")
+        , scrollable
+        , api
+        , i
+        , uuid;
+      videos.each(function (i, v) {
+        uuid = $(this).data('uuid');
+        if (i === 0) {
+          $('#videos').css({
+            'background-image': 'url("/downloads/' + uuid + '.jpg")'
+          });
+        }
+        playlist.push([{
+          mp4: '/media/' + uuid + '.mp4'
+        }]);
+      });
+      $(".scrollable").scrollable();
+      scrollable = $(".scrollable").data("scrollable");
+      $('#videos').flowplayer({
+        swf: "/javascript/flowplayer.swf",
+        playlist: playlist
+      }).bind('ready', function (e, api, video) {
+        videos.each(function (i) {
+          var active = i == video.index;
+          $(this).toggleClass("is-active", active)
+                 .toggleClass("is-paused", active && api.paused);
+        });
+      }).bind("pause resume", function (e, api) {
+        videos.eq(api.video.index).toggleClass("is-paused", e.type == "pause");
+      }).bind("finish", function (e, api) {
+        var vindex = api.video.index
+          , currentpage = Math.floor(vindex / 5)
+          , scrollindex = scrollable.getIndex()
+          , next;
+ 
+        if (vindex % 5 != 0 && scrollindex == currentpage) {
+          scrollable.next();
+        } else if (scrollindex != currentpage) {
+          next = vindex < playlist.length - 1 ? vindex + 1 : 0;
+          scrollable.seekTo(Math.floor(next / 5));
+        }
+      });
+      api = $("#videos").data("flowplayer");
+      videos.click(function () {
+        var vindex = videos.index(this);
+        if (api.video.index === vindex) {
+          api.toggle();
+        } else {
+          api.play(vindex);
+        }
+      });
     })(jQuery);
 
 append scripts
@@ -122,6 +189,7 @@ append scripts
 
 //- this JS must be included in head to fix IE8 compatibility issue
 append hscripts
+  script(src='/javascript/jquery.tools.min.js', text='text/javascript')
   script(src='/javascript/flowplayer.js', text='text/javascript')
 
 append css
