@@ -15,13 +15,13 @@
         // default settings
         var defaults = {
             // auto slide change
-            auto: true,
+            auto: false,
             // slide change period
             period: 6000,
             // animation duration
             duration: 1000,
             // animation effect (fade, slide, switch, slowdown)
-            effect: 'slide',
+            effect: 'fade',
             // animation direction (left, right) for some kinds of animation effect
             direction: 'left',
             // markers below the carousel
@@ -88,11 +88,11 @@
                 // prev next buttons handlers
                 $element.find('span.control.left').on('click', function(){
                     changeSlide('left');
-                    startAutoSlide();
+                    //startAutoSlide();
                 });
                 $element.find('span.control.right').on('click', function(){
                     changeSlide('right');
-                    startAutoSlide();
+                    //startAutoSlide();
                 });
             } else {
                 $element.find('span.control').hide();
@@ -206,7 +206,7 @@
                 }
 
                 changeSlide(undefined, 'switch', index);
-                startAutoSlide();
+                //startAutoSlide();
             });
 
             div.appendTo($element);

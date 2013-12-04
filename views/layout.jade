@@ -3,17 +3,19 @@ html
   head
     title EnjoyABC
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(charset="utf-8")
     meta(name='auther', content='Tomo Wang')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1')
     block css
       link(rel='stylesheet', href='/css/modern.css')
       link(rel='stylesheet', href='/css/modern-responsive.css')
       link(rel='stylesheet', href='/css/style.css')
+    block hscripts
+      script(src='/javascript/jquery-1.9.1.min.js', text='text/javascript')
+      script(src='/javascript/jquery-migrate-1.2.1.min.js', text='text/javascript')
   body.metrouicss
     block content
     block scripts
-      script(src='/javascript/jquery-1.9.1.min.js', text='text/javascript')
-      script(src='/javascript/jquery-migrate-1.2.1.min.js', text='text/javascript')
       script(src='/javascript/jquery.placeholder.min.js', text='text/javascript')
       script(src='/javascript/jquery.lazyload.min.js', text='text/javascript')
       script(src='/javascript/moment.min.js', text='text/javascript')

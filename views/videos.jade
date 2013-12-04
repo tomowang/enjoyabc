@@ -6,14 +6,14 @@ block content
     .page-region
       .page-region-content
         each v in videos
-          .image-container.bg-color-blue51.place-left(style="width: 490px;")
-            | !{v.embed}
+          .image-container.bg-color-blue51.place-left
+            img(src="/downloads/#{v.uuid}.jpg")
             .overlay #{v.title}
               | <br>
               | #{v.get_date()}
-            //a.icon-link.bottom-right(href="#{v.link}", target="_blank")
+            a.icon-download-2.bottom-right(href="/media/#{v.uuid}", target="_blank")
             - if (role === 'admin') {
-              a.icon-cancel.top-right(href="#", data-uuid="#{v._id}")
+              a.icon-cancel.top-right(href="#", data-uuid="#{v.uuid}")
             - }
         - if (role === 'admin') {
           a#upload.place-left.bg-color-blue51.icon-plus-2(href="#")
@@ -28,15 +28,15 @@ block content
         .alert.bg-color-red
           span
           i.icon-cancel
-        form.box#fileupload(action="/media", method="POST")
+        form.box#fileupload(action="/media", method="POST", enctype="multipart/form-data")
           .progress-bar
             .bar.bg-color-red
           .input-control.text
             input#title(name="title", type='text', required="required", placeholder="Title")
             button.helper(type="button", tabindex="-1")
-          .input-control.textarea
-            textarea#embed(name="embed", type='text', required="required", placeholder="Embed HTML code...")
-          button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Add
+          .input-control
+            input#video(name="video", required="required", type='file', accept='video/mp4')
+          button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Upload
           a.button.close.bg-color-red.fg-color-white#cancel Cancel
   - }
 
@@ -54,8 +54,9 @@ block js
             dataType: 'json',
             beforeSerialize: function($form, options){
               $('#title', $form).val($.trim($('#title', $form).val()));
-              $('#embed', $form).val($.trim($('#embed', $form).val()));
-              if(!$('#title', $form).val() || !$('#embed', $form).val()){
+              //$('#embed', $form).val($.trim($('#embed', $form).val()));
+              //if(!$('#title', $form).val() || !$('#embed', $form).val()){
+              if(!$('#title', $form).val() || !$('#video', $form).val()){
                 return false;
               }
             },

@@ -10,20 +10,16 @@ block content
           .row
             h2.text-right Lectures
             .span8
-              #videos.carousel(data-role="carousel", data-param-auto="false", data-param-effect="fade")
-                .slides
-                  - if (videos.length) {
+              - if (videos.length) {
+                #videos.flowplayer
+                  video(preload="none", poster="/downloads/#{videos[0].uuid}.jpg")
+                    source(type="video/mp4", src="/media/#{videos[0].uuid}.mp4")
+                  a.fp-prev
+                  a.fp-next
+                  .fp-playlist
                     each v in videos
-                      .slide
-                        .embed-video
-                          h2 #{v.title}
-                          | !{v.embed}
-                          div #{v.get_date()}
-                  - }
-                span.control.left.fg-color-blue
-                  i.icon-arrow-left-3
-                span.control.right.fg-color-blue
-                  i.icon-arrow-right-3
+                      a(href="/media/#{v.uuid}.mp4", style="background-image: url('/downloads/#{v.uuid}.png');")
+              - }
             .span4.scroll-div(style="margin-right: 0; height: 474px;")
               each l in lectures
                 .span4.bg-color-blueLight.lecture
@@ -116,12 +112,18 @@ block js
               $('.randomimage img').attr('src', '/pool/' + p_filename);
             }
           });
-        }, 5000);
+        }, 6000000);
       });
+      //$(".player").flowplayer({swf: "/javascript/flowplayer.swf"});
     })(jQuery);
 
 append scripts
   script(src='/javascript/jquery.jcarousel.min.js', text='text/javascript')
 
+//- this JS must be included in head to fix IE8 compatibility issue
+append hscripts
+  script(src='/javascript/flowplayer.js', text='text/javascript')
+
 append css
   link(rel='stylesheet', href='/css/jcarousel.simple.css')
+  link(rel="stylesheet", href="/css/skin/minimalist.css")

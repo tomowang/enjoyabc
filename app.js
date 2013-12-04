@@ -155,7 +155,7 @@ app.map({
     get: [auth(), access_ctrl('admin'), videos.list],
     post: [auth(), access_ctrl('admin'), videos.post],
     '/:uuid': {
-      //get: [videos.get],
+      get: [videos.get],
       delete: [auth(), access_ctrl('admin'), videos.del]
     }
   },
