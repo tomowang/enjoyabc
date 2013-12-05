@@ -141,6 +141,7 @@ app.map({
       delete: [auth(), access_ctrl('admin'), presentations.del]
     }
   },
+  /*
   '/pictures': {
     get: [auth(), access_ctrl('admin'), pictures.list],
     post: [auth(), access_ctrl('admin'), pictures.post],
@@ -151,6 +152,7 @@ app.map({
       }
     }
   },
+  */
   '/media': {
     get: [auth(), access_ctrl('admin'), videos.list],
     post: [auth(), access_ctrl('admin'), videos.post],

@@ -18,7 +18,7 @@ exports.index = function(req, res){
     articles: [],
     videos: [],
     lectures: [],
-    picture: '',
+    //picture: '',
     presentations: []
   };
   Topic.find({}, function(err, docs){
@@ -58,6 +58,9 @@ exports.index = function(req, res){
             return;
           }
           default_data.lectures = l;    
+          res.render('index', default_data);
+          return;
+          /*
           fs.readdir(poolDir, function(err, files){
             if(err){
               res.render('index', default_data);
@@ -72,6 +75,7 @@ exports.index = function(req, res){
             res.render('index', default_data);
             return;
           });
+          */
         });
       });
     });
