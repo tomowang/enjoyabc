@@ -12,8 +12,6 @@ block content
             .span8
               - if (videos.length) {
                 #videos
-                  video(preload="none", poster="/downloads/#{videos[0].uuid}.jpg")
-                    source(type="video/mp4", src="/media/#{videos[0].uuid}.mp4")
                   //a.fp-prev
                   //a.fp-next
                 .scrollable-wrap
@@ -30,7 +28,7 @@ block content
                           | </div><div>
                         - }
                       - }
-                          a(data-uuid="#{v.uuid}", style="background-image: url('/downloads/#{v.uuid}.png');")
+                          a(data-uuid="#{v.uuid}", style="background-image: url('/downloads/#{v.uuid}.png');", title="#{v.title}")
                       - }
                       | </div>
                   a.next
@@ -115,72 +113,60 @@ block js
           }
           init_slides();
         });
-        var p_filename
-          , random_picture = setInterval(function(){
-          p_filename = $('.randomimage img').data('filename');
-          $.ajax({
-            url: '/pictures/' + p_filename + '/next',
-            dataType: 'json',
-            success: function(data){
-              p_filename = data.filename;
-              $('.randomimage img').data('filename', p_filename);
-              $('.randomimage img').attr('src', '/pool/' + p_filename);
-            }
-          });
-        }, 10000);
-      });
-      //$(".player").flowplayer({swf: "/javascript/flowplayer.swf"});
-      var playlist = []
-        , videos = $(".scrollable a")
-        , scrollable
-        , api
-        , i
-        , uuid;
-      videos.each(function (i, v) {
-        uuid = $(this).data('uuid');
-        if (i === 0) {
-          $('#videos').css({
-            'background-image': 'url("/downloads/' + uuid + '.jpg")'
-          });
-        }
-        playlist.push([{
-          mp4: '/media/' + uuid + '.mp4'
-        }]);
-      });
-      $(".scrollable").scrollable();
-      scrollable = $(".scrollable").data("scrollable");
-      $('#videos').flowplayer({
-        swf: "/javascript/flowplayer.swf",
-        playlist: playlist
-      }).bind('ready', function (e, api, video) {
-        videos.each(function (i) {
-          var active = i == video.index;
-          $(this).toggleClass("is-active", active)
-                 .toggleClass("is-paused", active && api.paused);
+        //$(".player").flowplayer({swf: "/javascript/flowplayer.swf"});
+        var playlist = []
+          , videos = $(".scrollable a")
+          , scrollable
+          , api
+          , i
+          , uuid;
+        videos.each(function (i, v) {
+          uuid = $(this).data('uuid');
+          if (i === 0) {
+            $('#videos').css({
+              'background-image': 'url("/downloads/' + uuid + '.jpg")'
+            });
+          }
+          playlist.push([{
+            mp4: '/downloads/' + uuid
+          }]);
         });
-      }).bind("pause resume", function (e, api) {
-        videos.eq(api.video.index).toggleClass("is-paused", e.type == "pause");
-      }).bind("finish", function (e, api) {
-        var vindex = api.video.index
-          , currentpage = Math.floor(vindex / 5)
-          , scrollindex = scrollable.getIndex()
-          , next;
- 
-        if (vindex % 5 != 0 && scrollindex == currentpage) {
-          scrollable.next();
-        } else if (scrollindex != currentpage) {
-          next = vindex < playlist.length - 1 ? vindex + 1 : 0;
-          scrollable.seekTo(Math.floor(next / 5));
-        }
-      });
-      api = $("#videos").data("flowplayer");
-      videos.click(function () {
-        var vindex = videos.index(this);
-        if (api.video.index === vindex) {
-          api.toggle();
-        } else {
-          api.play(vindex);
-        }
+        $(".scrollable").scrollable();
+        scrollable = $(".scrollable").data("scrollable");
+        $('#videos').flowplayer({
+          swf: "/javascript/flowplayer.swf",
+          playlist: playlist
+        }).bind('ready', function (e, api, video) {
+          videos.each(function (i) {
+            var active = i == video.index;
+            $(this).toggleClass("is-active", active)
+                   .toggleClass("is-paused", active && api.paused);
+          });
+        }).bind("pause resume", function (e, api) {
+          videos.eq(api.video.index).toggleClass("is-paused", e.type == "pause");
+        }).bind("finish", function (e, api) {
+          var vindex = api.video.index
+            , currentpage = Math.floor(vindex / 5)
+            , scrollindex = scrollable.getIndex()
+            , next;
+   
+          if (vindex % 5 != 0 && scrollindex == currentpage) {
+            scrollable.next();
+          } else if (scrollindex != currentpage) {
+            next = vindex < playlist.length - 1 ? vindex + 1 : 0;
+            scrollable.seekTo(Math.floor(next / 5));
+          }
+        });
+        api = $("#videos").data("flowplayer");
+        videos.click(function () {
+          var vindex = videos.index(this);
+          if (api.video.index === vindex) {
+            api.toggle();
+          } else {
+            api.play(vindex);
+          }
+        });
+        $(".scrollable-wrap a[title]").tooltip({position: "bottom center"});
       });
     })(jQuery);
 

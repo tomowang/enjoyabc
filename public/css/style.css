@@ -198,3 +198,14 @@ div.scroll-div {
 
 input, textarea { color: #000; }
 .placeholder { color: #aaa; }
+
+.tooltip {
+    display:none;
+    background:transparent url(/images/white_arrow.png);
+    font-size:12px;
+    height:70px;
+    width:209px;
+    padding:25px 10px 0px 15px;
+    color:#000;
+    z-index: 999;
+}

@@ -13,7 +13,7 @@ block content
               | #{v.get_date()}
               | <br>
               | #{v.get_size()}
-            a.icon-download-2.bottom-right(href="/media/#{v.uuid}", target="_blank")
+            a.icon-download-2.bottom-right(href="/media/#{v.uuid}.mp4", target="_blank")
             - if (role === 'admin') {
               a.icon-cancel.top-right(href="#", data-uuid="#{v.uuid}")
             - }
