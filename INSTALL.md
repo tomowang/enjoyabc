@@ -72,7 +72,7 @@ add nginx configure file to `/etc/nginx/sites-available/` (file name `enjoyabc`)
             proxy_pass http://127.0.0.1:3000;
             proxy_redirect off;
         }
-        location ~ ^/(images/|img/|javascript/|js/|css/|stylesheets/|flash/|media/|static/|fonts/|downloads/|robots.txt|humans.txt|favicon.ico) {
+        location ~ ^/(images/|img/|javascript/|js/|css/|stylesheets/|flash/|static/|fonts/|downloads/|robots.txt|humans.txt|favicon.ico) {
             access_log off;
             root /home/tomo/enjoyabc/public/;
             expires max;
