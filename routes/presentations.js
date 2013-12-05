@@ -42,6 +42,11 @@ exports.post = function(req, res){
   var fileType = 'application/pdf';
   if(req.files.presentation.type.substring(0, fileType.length) !== fileType){
     res.send(400, {'error': 'Invalid file type.'});
+    fs.unlink(req.files.presentation.path, function(e){
+      if (e) {
+        console.log(e);
+      }
+    });
     return;
   }
   var oldPath = req.files.presentation.path

@@ -38,6 +38,11 @@ exports.post = function(req, res){
   for(i=0; i< pictures.length; i++){
     p = pictures[i];
     if(p.type.substring(0, fileType.length) !== fileType){
+      fs.unlink(p.path, function(e){
+        if (e) {
+          console.log(e);
+        }
+      });
       continue;
     }
     oldPath = p.path;
