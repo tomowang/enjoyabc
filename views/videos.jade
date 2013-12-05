@@ -11,6 +11,8 @@ block content
             .overlay #{v.title}
               | <br>
               | #{v.get_date()}
+              | <br>
+              | #{v.get_size()}
             a.icon-download-2.bottom-right(href="/media/#{v.uuid}", target="_blank")
             - if (role === 'admin') {
               a.icon-cancel.top-right(href="#", data-uuid="#{v.uuid}")

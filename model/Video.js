@@ -10,5 +10,6 @@ var mongoose = require('mongoose')
     });
 
 schema.methods.get_date = require('../utils/common').get_date;
+schema.methods.get_size = require('../utils/common').get_size;
 
 module.exports = mongoose.model('Video', schema);

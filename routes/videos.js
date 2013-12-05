@@ -3,6 +3,7 @@ var Video = require('../model').Video
   , path = require('path')
   , fs = require('fs')
   , util = require('util')
+  , glob = require('glob')
   , fmt = 'jpg'
   , uploadDir = path.join(__dirname, '..', 'public', 'downloads');
 
@@ -88,7 +89,18 @@ exports.del = function(req, res){
         res.send(500);
         return;
       }
-      res.send(200);
+      glob(uploadDir + util.format('/%s*', uuid), function(err, files){
+        if(err){
+          res.send(500);
+          return;
+        }
+        for(var i = 0; i < files.length; i++){
+          fs.unlink(files[i], function(e){
+            if(e) console.log(e);
+          });
+        }
+        res.send(200);
+      });
     });
   });
 }
