@@ -94,7 +94,7 @@ block js
               url: '/presentations/' + _this.data('uuid'),
               type: 'DELETE',
               success: function(data){
-                _this.parent('.image-container').remove();
+                _this.parent('.image-container').parent('.span4').remove();
               }
             });
           });
