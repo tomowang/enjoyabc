@@ -5,52 +5,40 @@ block content
     include includes/header
     .page-region
       .page-region-content
-        ul.listview.fluid#topic
-          each topic in topics
-            li.bg-color-blue51
-              .icon
-                img(src="/images/article_32.png")
-              .data
-                h4.fg-color-white #{topic.name}
-                each a in topic.articles
-                  a(href="#{a.link}", target="_blank") #{a.title}
-                  br
-                - if (role === 'admin') {
-                  a.icon-cancel.top-right(href="#", data-id="#{topic.id}")
-                - }
-          - if (role === 'admin') {
-            a.place-left.bg-color-blue51.icon-plus-2(href="#")
-          - }
+        each a in articles
+          .span4.place-left
+            .image-container.bg-color-white(style="width: 100%;")
+              .presentation
+                img(src="/downloads/#{a.uuid}.png")
+              .overlay #{a.title}
+                | <br>
+                | #{a.get_date()}
+              a.icon-download-2.bottom-right(href="/articles/#{a.uuid}", target="_blank")
+              - if (role === 'admin') {
+                a.icon-cancel.top-right(href="#", data-uuid="#{a.uuid}")
+              - }
+        - if (role === 'admin') {
+          a#upload.place-left.bg-color-blue51.icon-upload-3(href="#")
+        - }
     //-include includes/footer
 
   - if (role === 'admin') {
-    .dialog.modal#add_popup
-      .modal-header New Topic
+    .dialog.modal#upload_popup
+      .modal-header Add Article
         i.icon-cancel.close
       .modal-content
         .alert.bg-color-red
           span
           i.icon-cancel
-        form.box(action="/articles", method="POST")
+        form.box#fileupload(action="/articles", method="POST", enctype="multipart/form-data")
+          .progress-bar
+            .bar.bg-color-red
           .input-control.text
-            input(name="topic", type='text', required="required", placeholder="Topic")
+            input#title(name="title", type='text', required="required", placeholder="Title")
             button.helper(type="button", tabindex="-1")
-          table.bordered.hovered
-            thead
-              tr
-                th Article
-                th Link
-                th
-                  a.icon-plus(title="Add a new article", href="#")
-            tbody
-              tr
-                td
-                  input(name="title[]", type="text", placeholder="Article title")
-                td
-                  input(name="link[]", type="text", placeholder="Article link")
-                td
-                  a.icon-minus(title="Delete this", tabindex="-1", href="#")
-          button.button.bg-color-blue.fg-color-white#submit(type="submit") Submit
+          .input-control
+            input#article(name="article", required="required", type='file', accept="application/pdf")
+          button.bg-color-blue.fg-color-white#uploadbtn(type="submit") Upload
           a.button.close.bg-color-red.fg-color-white#cancel Cancel
   - }
 
@@ -59,60 +47,56 @@ block js
     script(type='text/javascript').
       ;(function($){
         $(document).ready(function(e){
-          var popup = $('#add_popup')
-            , template = $('tbody').html();
-          $('a.icon-plus-2').click(function(e){
-            e.preventDefault();
+          var popup = $('#upload_popup');
+          $('#upload').click(function(e){
             $('.alert', popup).hide();
-            popup.lightbox_me();
-          });
-          $(document).on('click', 'a.icon-minus', function(e){
-            e.preventDefault();
-            $(this).parents('tr').remove();
-          });
-          $('a.icon-plus').click(function(e){
-            e.preventDefault();
-            $('tbody').append(template);
-          });
-          $('a.icon-cancel').click(function(e){
-            e.preventDefault();
-            var _this = $(this);
-            $.ajax({
-              url: '/articles/' + _this.data('id'),
-              type: 'DELETE',
-              success: function(data){
-                _this.parents('li').remove();
-              },
-              error: function(jqXHR, textStatus, errorThrown){
-                window.location.href = '/articles';
-              }
-            });
-          });
-          $('h4').click(function(e){
-            e.preventDefault();
-            var id = $(this).siblings('a.icon-cancel').data('id');
+            popup.lightbox_me();          
           });
           $('form').ajaxForm({
             dataType: 'json',
-            beforeSerialize: function($form, option){
-              var valid = true;
-              $('input', $form).each(function(){
-                $(this).val($.trim($(this).val()));
-                if(!$(this).val()){
-                  valid = false;
-                  return false;
-                }
-              });
-              return valid;
+            beforeSerialize: function($form, options){
+              $('#title', $form).val($.trim($('#title', $form).val()));
+              if(!$('#title', $form).val() || !$('#article', $form).val()){
+                return false;
+              }
             },
             beforeSubmit: function(formData, jqForm, options){
+              var $form = jqForm[0];
+              $('.close', $form).addClass('disabled').attr('disabled', 'disabled');
+              $('.bar', $form).css('width', '0%');
+            },
+            uploadProgress: function(e, position, total, done){
+              $('.bar', popup).css('width', done + '%');
             },
             success: function(data){
               window.location.href = '/articles';
             },
             error: function(jqXHR, textStatus, errorThrown){
-              window.location.href = '/articles';
+              $('.close', popup).removeAttr('disabled').removeClass('disabled');
+              var rt = jqXHR.responseText
+                , jsrt = {};
+              try{
+                jsrt = $.parseJSON(rt);
+              }catch(e){
+              }
+              if(jsrt.error){
+                $('.alert span', popup).html(jsrt.error);
+                $('.alert', popup).show();
+              }
             }
+          });
+          $('.alert .icon-cancel').click(function(e){
+            $(this).parent('.alert').hide();
+          });
+          $('a.icon-cancel').click(function(e){
+            var _this = $(this);
+            $.ajax({
+              url: '/articles/' + _this.data('uuid'),
+              type: 'DELETE',
+              success: function(data){
+                _this.parent('.image-container').parent('.span4').remove();
+              }
+            });
           });
         });
       })(jQuery);

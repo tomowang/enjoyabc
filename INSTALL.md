@@ -4,6 +4,7 @@
 * nodejs 0.8+
 * nginx
 * MongoDB 2.0+
+* swftools
 
 ### Prepare
 
@@ -31,6 +32,13 @@
     apt-get update
     apt-get install mongodb-10gen
     service mongodb start
+
+#### [swftools](http://www.swftools.org/)
+
+    sudo apt-get install libjpeg62-dev libgif-dev libfreetype6-dev
+    sudo add-apt-repository ppa:guilhem-fr/swftools
+    sudo apt-get update
+    sudo apt-get install swftools
 
 #### others
 

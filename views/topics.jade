@@ -1,0 +1,123 @@
+extends layout
+
+block content
+  .page.thirdary
+    include includes/header
+    .page-region
+      .page-region-content
+        ul.listview.fluid#topic
+          each topic in topics
+            li.bg-color-blue51
+              .icon
+                img(src="/images/article_32.png")
+              .data
+                h4.fg-color-white #{topic.name}
+                each a in topic.articles
+                  a(href="#{a.link}", target="_blank") #{a.title}
+                  br
+                - if (role === 'admin') {
+                  a.icon-cancel.top-right(href="#", data-id="#{topic.id}")
+                - }
+          - if (role === 'admin') {
+            a.place-left.bg-color-blue51.icon-plus-2(href="#")
+          - }
+    //-include includes/footer
+
+  - if (role === 'admin') {
+    .dialog.modal#add_popup
+      .modal-header New Topic
+        i.icon-cancel.close
+      .modal-content
+        .alert.bg-color-red
+          span
+          i.icon-cancel
+        form.box(action="/articles", method="POST")
+          .input-control.text
+            input(name="topic", type='text', required="required", placeholder="Topic")
+            button.helper(type="button", tabindex="-1")
+          table.bordered.hovered
+            thead
+              tr
+                th Article
+                th Link
+                th
+                  a.icon-plus(title="Add a new article", href="#")
+            tbody
+              tr
+                td
+                  input(name="title[]", type="text", placeholder="Article title")
+                td
+                  input(name="link[]", type="text", placeholder="Article link")
+                td
+                  a.icon-minus(title="Delete this", tabindex="-1", href="#")
+          button.button.bg-color-blue.fg-color-white#submit(type="submit") Submit
+          a.button.close.bg-color-red.fg-color-white#cancel Cancel
+  - }
+
+block js
+  - if (role === 'admin') {
+    script(type='text/javascript').
+      ;(function($){
+        $(document).ready(function(e){
+          var popup = $('#add_popup')
+            , template = $('tbody').html();
+          $('a.icon-plus-2').click(function(e){
+            e.preventDefault();
+            $('.alert', popup).hide();
+            popup.lightbox_me();
+          });
+          $(document).on('click', 'a.icon-minus', function(e){
+            e.preventDefault();
+            $(this).parents('tr').remove();
+          });
+          $('a.icon-plus').click(function(e){
+            e.preventDefault();
+            $('tbody').append(template);
+          });
+          $('a.icon-cancel').click(function(e){
+            e.preventDefault();
+            var _this = $(this);
+            $.ajax({
+              url: '/articles/' + _this.data('id'),
+              type: 'DELETE',
+              success: function(data){
+                _this.parents('li').remove();
+              },
+              error: function(jqXHR, textStatus, errorThrown){
+                window.location.href = '/articles';
+              }
+            });
+          });
+          $('h4').click(function(e){
+            e.preventDefault();
+            var id = $(this).siblings('a.icon-cancel').data('id');
+          });
+          $('form').ajaxForm({
+            dataType: 'json',
+            beforeSerialize: function($form, option){
+              var valid = true;
+              $('input', $form).each(function(){
+                $(this).val($.trim($(this).val()));
+                if(!$(this).val()){
+                  valid = false;
+                  return false;
+                }
+              });
+              return valid;
+            },
+            beforeSubmit: function(formData, jqForm, options){
+            },
+            success: function(data){
+              window.location.href = '/articles';
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              window.location.href = '/articles';
+            }
+          });
+        });
+      })(jQuery);
+  - }
+
+append scripts
+  script(src='/javascript/jquery.lightbox_me.js', text='text/javascript')
+  script(src='/javascript/jquery.form.js', text='text/javascript')

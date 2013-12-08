@@ -122,7 +122,8 @@ app.map({
   '/articles': {
     get: [auth(), access_ctrl('admin'), articles.list],
     post: [auth(), access_ctrl('admin'), articles.post],
-    '/:tid': {
+    '/:uuid': {
+      get: [articles.get],
       delete: [auth(), access_ctrl('admin'), articles.del]
     }
   },
