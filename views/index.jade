@@ -68,20 +68,15 @@ block content
         .grid
           .row
             .span8
-            //  .image-container.bg-color-lighten(style="width: 100%; margin-bottom: 0px;")
-            //    .randomimage
-            //      img(src="/pool/#{picture}", data-filename="#{picture}")
+              #documentViewer.flexpaper_viewer(style="width:630px;height:870px;")
             .span4.scroll-div(style="margin-right: 0;")
-              .text-left.bg-color-blueLight
-                h2.text-center Latest Articles
-                ul.listview(style="margin-left: 0;")
-                  each a in articles
-                    li
-                      .icon
-                        img(src="/images/article_32.png")
-                      .data
-                        h2.fg-color-white(style="margin: 0px;")
-                          a(href="#{a.link}", target="_blank") #{a.title}
+              each a in articles
+                .span4
+                  .image-container.bg-color-white(style="width: 100%; cursor: pointer;", data-type="article", data-uuid="#{a.uuid}")
+                    .article
+                      img(src="/downloads/#{a.uuid}.png")
+                    .overlay
+                      .padding10.fg-color-black.tertiary-text #{a.title}
 
     //-include includes/footer
 
@@ -167,6 +162,36 @@ block js
           }
         });
         $(".scrollable-wrap a[title]").tooltip({position: "bottom center"});
+        if ($('.image-container[data-type="article"]').length > 0) {
+          $('#documentViewer').FlexPaperViewer(
+            { config : {
+                SWFFile : '/downloads/' + $('.image-container[data-type="article"]').data('uuid') + '.swf',
+
+                Scale : 0.6,
+                ZoomTransition : 'easeOut',
+                ZoomTime : 0.5,
+                ZoomInterval : 0.2,
+                FitPageOnLoad : true,
+                FitWidthOnLoad : false,
+                FullScreenAsMaxWindow : false,
+                ProgressiveLoading : false,
+                MinZoomSize : 0.2,
+                MaxZoomSize : 5,
+                SearchMatchAll : false,
+                InitViewMode : 'Portrait',
+                RenderingOrder : 'flash',
+                StartAtPage : '',
+
+                ViewModeToolsVisible : true,
+                ZoomToolsVisible : true,
+                NavToolsVisible : true,
+                CursorToolsVisible : true,
+                SearchToolsVisible : true,
+                WMode : 'window',
+                localeChain: 'en_US'
+            }
+          });
+        }
       });
     })(jQuery);
 
@@ -177,7 +202,10 @@ append scripts
 append hscripts
   script(src='/javascript/jquery.tools.min.js', text='text/javascript')
   script(src='/javascript/flowplayer.js', text='text/javascript')
+  script(src='/javascript/flexpaper.js', text='text/javascript')
+  script(src='/javascript/flexpaper_handlers.js', text='text/javascript')
 
 append css
   link(rel='stylesheet', href='/css/jcarousel.simple.css')
   link(rel="stylesheet", href="/css/skin/minimalist.css")
+  link(rel="stylesheet", href="/css/flexpaper.css")

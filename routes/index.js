@@ -3,7 +3,7 @@
  * GET home page.
  */
 
-var Topic = require('../model').Topic
+var Article = require('../model').Article
   , Video = require('../model').Video
   , Presentation = require('../model').Presentation
   , Lecture = require('../model').Lecture
@@ -21,25 +21,12 @@ exports.index = function(req, res){
     //picture: '',
     presentations: []
   };
-  Topic.find({}, function(err, docs){
+  Article.find().sort('-date').exec(function(err, a){
     if(err){
       res.render('index', default_data);
       return;
     }
-    var articles = []
-      , i
-      , j
-      , a;
-    for(i = 0; i < docs.length; i++){
-      a = docs[i].articles;
-      for(j = 0; j < a.length; j++){
-        articles.push(a[j]);
-      }
-    }
-    articles.sort(function(m, n){
-      return n.date - m.date;
-    });
-    default_data.articles = articles;
+    default_data.articles = a;
     Video.find().sort('-date').exec(function(err, vs){
       if(err){
         res.render('index', default_data);

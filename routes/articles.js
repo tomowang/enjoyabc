@@ -52,7 +52,7 @@ exports.post = function(req, res){
     , uuid = path.basename(oldPath)
     , thumbnail = path.join(path.dirname(oldPath), util.format('%s.png', uuid))
     , swfPath = path.join(path.dirname(oldPath), util.format('%s.swf', uuid));
-  exec(util.format('pdf2swf -f -T 9 -t -s storeallcharacters %s -o %s.swf', oldPath, swfPath), function(error, stdout, stderr){
+  exec(util.format('pdf2swf -f -T 9 -t -s storeallcharacters %s -o %s', oldPath, swfPath), function(error, stdout, stderr){
     if(error){
       console.log(error);
       res.send(500);
