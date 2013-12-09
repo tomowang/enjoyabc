@@ -162,10 +162,11 @@ block js
           }
         });
         $(".scrollable-wrap a[title]").tooltip({position: "bottom center"});
-        if ($('.image-container[data-type="article"]').length > 0) {
+        var flexpaper = function (uuid) {
+          $('#documentViewer').data('uuid', uuid);
           $('#documentViewer').FlexPaperViewer(
             { config : {
-                SWFFile : '/downloads/' + $('.image-container[data-type="article"]').data('uuid') + '.swf',
+                SWFFile : '/downloads/' + uuid + '.swf',
 
                 Scale : 0.6,
                 ZoomTransition : 'easeOut',
@@ -191,7 +192,17 @@ block js
                 localeChain: 'en_US'
             }
           });
+        };
+        if ($('.image-container[data-type="article"]').length > 0) {
+            flexpaper($('.image-container[data-type="article"]').data('uuid'));
         }
+        $('.image-container[data-type="article"]').click(function (e) {
+            var uuid = $(this).data('uuid');
+            if (uuid === $('#documentViewer').data('uuid')) {
+                return false;
+            }
+            flexpaper(uuid);
+        });
       });
     })(jQuery);
 
