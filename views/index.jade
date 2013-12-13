@@ -8,7 +8,11 @@ block content
         h3 The Enjoy International Lecture Series gives students the opportunity to explore foreign culture while gaining valuable professional skills for for the future.
         .grid
           .row
-            h2.text-right Topics
+            div
+              .span8
+                h2 Videos
+              .span4
+                h2 Topics
             .span8
               - if (videos.length) {
                 #videos
@@ -42,7 +46,7 @@ block content
                   h5 Date: #{l.get_date()}
         .grid
           .row
-            h2.text-right Presentations
+            h2 Presentations
             .span8
               .jcarousel-wrapper.bg-color-lighten
                 .jcarousel(data-jcarousel="true", data-wrap="circular")
@@ -67,6 +71,7 @@ block content
                       .padding10.fg-color-grayDark.tertiary-text Title: #{p.title}
         .grid
           .row
+            h2 Articles
             .span8
               #documentViewer.flexpaper_viewer(style="width:630px;height:870px;")
             .span4.scroll-div(style="margin-right: 0; height: 870px;")
